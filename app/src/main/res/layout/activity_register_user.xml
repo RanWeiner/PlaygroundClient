@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#481020"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context=".activities.RegisterUserActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:src="@drawable/logo"
+        />
+
+    <EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Username"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:inputType="textPersonName"
+    android:drawableLeft="@drawable/ic_username"
+    android:id="@+id/username_text"/>
+
+    <EditText
+        android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Email"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:inputType="textEmailAddress"
+    android:drawableLeft="@drawable/ic_email"
+    android:id="@+id/email_text"/>
+
+
+    <RadioGroup
+    android:layout_marginTop="20dp"
+    android:id="@+id/radiogroup_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <RadioButton
+    android:id="@+id/player_radio_btn"
+    android:text="Player"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/white"
+    android:onClick="onRadioBtnClicked"
+    android:checked="true"/>
+
+    <RadioButton
+    android:id="@+id/manager_radio_btn"
+    android:text="Manager"
+    android:textColor="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="onRadioBtnClicked"/>
+
+    </RadioGroup>
+
+
+<LinearLayout
+    android:layout_marginTop="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="Select Avatar:"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/avatar_btn_id"
+        android:background="#80ffffff"
+        android:text="..."/>
+
+
+</LinearLayout>
+
+
+
+    <ProgressBar
+        android:id="@+id/register_progress_bar_id"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+    android:background="#c2c2c2"
+    android:textColor="#491222"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Register"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="40dp"
+    android:id="@+id/register_activiy_register_btn"
+    />
+
+
+
+</LinearLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:background="#e7dbc3"-->
+    <!--tools:context=".activities.RegisterUserActivity">-->
+
+
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:hint="Username"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textColorHint="@color/white"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:drawableLeft="@drawable/ic_username"-->
+        <!--android:id="@+id/username_text"/>-->
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:hint="Email"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textColorHint="@color/white"-->
+        <!--android:inputType="textEmailAddress"-->
+        <!--android:drawableLeft="@drawable/ic_email"-->
+        <!--android:id="@+id/email_text"/>-->
+
+
+
+
+
+   <!--<RadioGroup-->
+       <!--android:id="@+id/radiogroup_id"-->
+       <!--android:layout_width="wrap_content"-->
+       <!--android:layout_height="wrap_content"-->
+       <!--android:orientation="horizontal"-->
+       <!--&gt;-->
+
+       <!--<RadioButton-->
+           <!--android:id="@+id/player_radio_btn"-->
+           <!--android:text="Player"-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_height="wrap_content"-->
+           <!--android:textColor="@color/white"-->
+           <!--android:onClick="onRadioBtnClicked"-->
+           <!--android:checked="true"/>-->
+
+       <!--<RadioButton-->
+           <!--android:id="@+id/manager_radio_btn"-->
+           <!--android:text="Manager"-->
+           <!--android:textColor="@color/white"-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_height="wrap_content"-->
+           <!--android:onClick="onRadioBtnClicked"/>-->
+
+   <!--</RadioGroup>-->
+
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/avatar_btn_id"-->
+        <!--android:text="Choose Avatar"/>-->
+
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Register"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:id="@+id/register_activiy_register_btn"-->
+        <!--android:elevation="8dp"/>-->
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/register_progress_bar_id"-->
+        <!--style="?android:attr/progressBarStyle"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+
+<!--</LinearLayout>-->
