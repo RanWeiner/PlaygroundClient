@@ -51,6 +51,43 @@ public class HttpRequestsHandler {
     }
 
 
+
+
+    public void putRequest(String url , final String event , JSONObject jsonObject) {
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+                e.printStackTrace();
+                final String error = e.toString();
+                if (mListener != null)
+                    mListener.onFailed(error);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    final String errorBodyString = response.body().string();
+                    if (mListener != null)
+                        mListener.onFailed(errorBodyString);
+                } else {
+                    final String myResponse = response.body().string();
+                    if (mListener != null)
+                        mListener.onSuccess(myResponse , event);
+
+                }
+            }
+        });
+    }
+
+
     public void postRequest(String url ,final String event, JSONObject jsonObject ) {
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");

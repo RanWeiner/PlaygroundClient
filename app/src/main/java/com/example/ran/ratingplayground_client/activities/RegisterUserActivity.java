@@ -26,8 +26,7 @@ import org.json.JSONObject;
 
 public class RegisterUserActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener {
 
-    private Button mRegisterBtn;
-    private Button mAvatarBtn;
+    private Button mRegisterBtn , mAvatarBtn;
     private EditText mEmailText, mUsernameText;
     private ProgressBar mProgressBar;
 
@@ -60,7 +59,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
         setListeners();
     }
 
-    public void onRadioBtnClicked(View view) {
+    public void onRoleRadioBtnClicked(View view) {
 
         boolean checked = ((RadioButton)view).isChecked();
 
@@ -139,7 +138,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
 
 
     private void registerUser() {
-        mUserKey = AppConstants.PLAYGROUND + "@@" + mEmail;
+        mUserKey = AppConstants.PLAYGROUND + AppConstants.DELIMITER+ mEmail;
 //        mNewUserForm = new NewUserForm(mEmail , mUsername , mAvatarImagePath, mRole);
 
         JSONObject jsonObject = new JSONObject();
@@ -151,7 +150,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = AppConstants.HOST + AppConstants.HTTP_CREATE_USER;
+        String url = AppConstants.HOST + AppConstants.HTTP_USER;
         mHandler.postRequest(url ,AppConstants.EVENT_REGISTER , jsonObject);
     }
 

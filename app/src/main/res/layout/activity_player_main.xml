@@ -8,35 +8,26 @@
     android:orientation="vertical"
     tools:context=".activities.PlayerMainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/player_text1_id"
+        android:id="@+id/player_update_user_btn_id"
+        android:text="Upadate User"
         />
-    <TextView
-        android:layout_width="match_parent"
+
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/player_text2_id"
+        android:id="@+id/player_search_elements_btn_id"
+        android:text="Search Elements"
         />
-    <TextView
-        android:layout_width="match_parent"
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/player_text3_id"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/player_text4_id"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/player_text5_id"
+        android:id="@+id/player_logout_btn_id"
+        android:text="Logout"
         />
 
 </LinearLayout>

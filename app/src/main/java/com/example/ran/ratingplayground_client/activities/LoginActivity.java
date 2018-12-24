@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.ran.ratingplayground_client.model.Element;
 import com.example.ran.ratingplayground_client.model.User;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
@@ -23,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 
@@ -33,12 +35,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
     private EditText mEmailText , mPlaygroundText;
     private ProgressBar mProgressBar;
     private NetworkStatus mNetworkStatus;
-
-
-
-    /////////////////////// new Shit ///////////////////////
     private HttpRequestsHandler mHandler;
-    ////////////////////////////////////////////////////////
 
 
     @Override
@@ -61,6 +58,11 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         mPlaygroundText = (EditText)findViewById(R.id.playground_login_text);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar_id);
         mProgressBar.setVisibility(View.INVISIBLE);
+
+        //just for DEBUG
+        mEmailText.setText("ran2@gmail.com");
+        mPlaygroundText.setText("ratingplayground");
+
         setButtonListeners();
     }
 
@@ -187,29 +189,28 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                JSONObject json = null;
-                User user = null;
-                mProgressBar.setVisibility(View.INVISIBLE);
-                try {
-                    json = new JSONObject(myResponse);
-                    user =  User.fromJson(json);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (user != null) {
-                    switch (user.getRole()) {
-                        case AppConstants.PLAYER:
-                            goToPlayerActivity(user);
-                            break;
+                    JSONObject json = null;
+                    User user = null;
+                    try {
+                        json = new JSONObject(myResponse);
+                        user = User.fromJson(json);
 
-                        case AppConstants.MANAGER:
-                            goToManagerActivity(user);
-                            break;
+                        switch (user.getRole()) {
+                            case AppConstants.PLAYER:
+                                goToPlayerActivity(user);
+                                break;
+
+                            case AppConstants.MANAGER:
+                                goToManagerActivity(user);
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-            }
         });
-    }
+        }
+
 
     @Override
     public void onFailed(final String error) {

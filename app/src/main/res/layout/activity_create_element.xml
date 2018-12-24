@@ -1,9 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CreateElementActivity">
+    tools:context=".activities.CreateElementActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:inputType="textPersonName"
+        android:drawableLeft="@drawable/ic_username"
+        android:id="@+id/element_name_text_id"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:inputType="textMultiLine"
+        android:drawableLeft="@drawable/ic_username"
+        android:id="@+id/element_description_text_id"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Expiration Date"
+        android:textColor="@color/white"
+        android:clickable="true"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
+        android:textColorHint="@color/white"
+        android:inputType="date"
+        android:drawableLeft="@drawable/ic_username"
+        android:id="@+id/element_expiration_date_text_id"/>
+
+
+    <RadioGroup
+        android:layout_marginTop="20dp"
+        android:id="@+id/type_radiogroup_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/create_billboard_radio_btn"
+            android:text="Billboard"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTypeRadioBtnClicked"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/create_book_radio_btn"
+            android:text="Book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:onClick="onTypeRadioBtnClicked"
+            />
+        <RadioButton
+            android:id="@+id/create_movie_radio_btn"
+            android:text="Movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:onClick="onTypeRadioBtnClicked"
+           />
+    </RadioGroup>
+
+    <ProgressBar
+        android:id="@+id/create_progress_bar_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        android:id="@+id/create_btn_id"/>
+
+
+
+</LinearLayout>

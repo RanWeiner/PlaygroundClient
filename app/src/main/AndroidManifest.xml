@@ -26,7 +26,10 @@
         <activity android:name=".activities.CreateElementActivity" />
         <activity android:name=".activities.ManagerMainActivity" />
         <activity android:name=".activities.PlayerMainActivity" />
-        <activity android:name=".activities.VerifyUserActivity"></activity>
+        <activity android:name=".activities.VerifyUserActivity" />
+        <activity android:name=".activities.UpdateUserActivity" />
+        <activity android:name=".activities.BillboardElementActivity" />
+        <activity android:name=".activities.UpdateElementActivity"></activity>
     </application>
 
 </manifest>
