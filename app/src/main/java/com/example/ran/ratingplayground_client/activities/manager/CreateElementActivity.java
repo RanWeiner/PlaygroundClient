@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.manager;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,30 +13,27 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.ran.ratingplayground_client.R;
-import com.example.ran.ratingplayground_client.model.Element;
-import com.example.ran.ratingplayground_client.model.User;
+import com.example.ran.ratingplayground_client.model.ElementTO;
+import com.example.ran.ratingplayground_client.model.UserTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 import com.example.ran.ratingplayground_client.utils.InputValidation;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class CreateElementActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
     private Button mCreateBtn;
-    private User mUser;
+    private UserTO mUser;
     private String mType , mDescription , mName;
-    private EditText descriptionText, nameText , expirationDateText;
+    private EditText descriptionText, nameText , expirationDateText , xLocationText, yLocationText;
     private ProgressBar mProgressBar;
     private Date mExpirationDate;
-
     private HttpRequestsHandler mHandler;
 
     @Override
@@ -45,7 +42,7 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         setContentView(R.layout.activity_create_element);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        mUser = (User)bundle.getSerializable(AppConstants.USER);
+        mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
         mType = AppConstants.BILLBOARD_TYPE;
         initializeUI();
 
@@ -85,6 +82,9 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         nameText = (EditText)findViewById(R.id.element_name_text_id);
         mProgressBar = (ProgressBar)findViewById(R.id.create_progress_bar_id);
         expirationDateText = (EditText)findViewById(R.id.element_expiration_date_text_id);
+        xLocationText = (EditText)findViewById(R.id.create_element_x_text_id);
+        yLocationText = (EditText)findViewById(R.id.create_element_y_text_id);
+
         setListeners();
     }
 
@@ -143,19 +143,43 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
             return false;
         }
 
+        //validate x
+        if (!InputValidation.validateUserInput(xLocationText.getText().toString())) {
+            expirationDateText.setError("Date is required");
+            expirationDateText.requestFocus();
+            return false;
+        }
+
+        //validate y
+        if (!InputValidation.validateUserInput(xLocationText.getText().toString())) {
+            expirationDateText.setError("Date is required");
+            expirationDateText.requestFocus();
+            return false;
+        }
+
         return true;
     }
 
 
     private void createNewElement() {
-
-        Element e = new Element();
+        ElementTO e = new ElementTO();
         e.setType(mType);
         e.setName(mName);
         e.setCreatorEmail(mUser.getEmail());
         e.setExpirationDate(mExpirationDate);
-        e.setLocation(0,0);
         e.setCreatorPlayground(mUser.getPlayground());
+        e.setPlayground(AppConstants.PLAYGROUND);
+
+        double x = 0;
+        double y = 0;
+        if (xLocationText.getText().toString().isEmpty()) {
+            x = Double.parseDouble(xLocationText.getText().toString());
+        }
+        if (yLocationText.getText().toString().isEmpty()) {
+            y = Double.parseDouble(yLocationText.getText().toString());
+        }
+        e.setLocation(x,y);
+
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("description",mDescription);
         e.setAttributes(attributes);
@@ -189,12 +213,6 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
                 Toast.makeText(CreateElementActivity.this , "created successfully!" , Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.INVISIBLE);
                 goToManagerMainActivity();
-//                try {
-//                    json = new JSONObject(myResponse);
-//                    element =  Element.fromJson(json);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
             }
         });
     }

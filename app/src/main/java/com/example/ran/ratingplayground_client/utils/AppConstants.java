@@ -18,7 +18,7 @@ public class AppConstants {
 //    public static final String HOST = "http://10.0.2.2:8084";
 
     //real device
-    public static final String HOST = "http://10.100.102.18:8084";
+    public static final String HOST = "http://10.100.102.19:8084";
 
 
     public static final String HTTP_USER ="/playground/users/";
@@ -38,5 +38,11 @@ public class AppConstants {
     public static final String EVENT_REGISTER = "register_event";
     public static final String EVENT_UPDATE_USER ="sign_in_event";
     public static final String EVENT_GET_ELEMENTS = "get_elements";
+    public static final String EVENT_POST_ACTIVITY = "post_activity";
+    public static final String EVENT_READ_ACTIVITY = "read_activity";
+
+    public static final String TYPE_POST_MESSAGE = "PostMessage";
+    public static final String TYPE_READ_MESSAGES = "ReadMessages";
+    public static final String TYPE_RATING = "Rating";
 
 }

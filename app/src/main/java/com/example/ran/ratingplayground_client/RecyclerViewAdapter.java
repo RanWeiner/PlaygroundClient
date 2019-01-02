@@ -2,7 +2,6 @@ package com.example.ran.ratingplayground_client;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.ran.ratingplayground_client.model.Element;
+import com.example.ran.ratingplayground_client.model.ElementTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     private Context mContext;
-    private ArrayList<Element> elements;
+    private ArrayList<ElementTO> elements;
     private final OnItemClickListener listener;
 
 
@@ -39,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public void bindElements(List<Element> elements) {
+    public void bindElements(List<ElementTO> elements) {
         this.elements = new ArrayList<>(elements);
         notifyDataSetChanged();
     }

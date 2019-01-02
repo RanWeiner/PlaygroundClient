@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.player;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -6,20 +6,19 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.ran.ratingplayground_client.R;
 import com.example.ran.ratingplayground_client.RecyclerViewAdapter;
-import com.example.ran.ratingplayground_client.model.Element;
-import com.example.ran.ratingplayground_client.model.User;
+import com.example.ran.ratingplayground_client.activities.common.LoginActivity;
+import com.example.ran.ratingplayground_client.activities.common.UpdateUserActivity;
+import com.example.ran.ratingplayground_client.model.ElementTO;
+import com.example.ran.ratingplayground_client.model.UserTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 
@@ -30,35 +29,66 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ManagerMainActivity extends AppCompatActivity  implements HttpRequestsHandler.ResponseListener {
-
-    private Button mUpdateUser , mAddElementBtn , mSearchElements;
-    private User mUser;
-    private List<Element> mElements = new ArrayList<>();
+public class PlayerMainActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
+    private Button mUpdateUser , mSearchElements;
+    private UserTO mUser;
+    private List<ElementTO> mElements = new ArrayList<>();
     private RecyclerViewAdapter mAdapter;
     private HttpRequestsHandler mHandler;
     private ProgressBar mProgressBar;
-
+    private TextView mPlayerPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_main);
+        setContentView(R.layout.activity_player_main);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        mUser = (User)bundle.getSerializable(AppConstants.USER);
+        mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
         mHandler = HttpRequestsHandler.getInstance();
         mHandler.setResponseListener(this);
         initializeUI();
+    }
 
+
+
+
+
+    private void openOptionsDialog() {
+
+        CharSequence[] customElementActivities = {"Guess Rank" , "See Rank" , "Post Review" , "See Review"};
+
+        CharSequence[] billboardActivities = {"Post" , "View"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerMainActivity.this);
+        builder.setTitle("Player Actions");
+        builder.setItems(new CharSequence[]{"Update", "button 2", "button 3", "button 4"},
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                Toast.makeText(PlayerMainActivity.this, "clicked 1", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 1:
+                                Toast.makeText(PlayerMainActivity.this, "clicked 2", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 2:
+                                Toast.makeText(PlayerMainActivity.this, "clicked 3", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 3:
+                                Toast.makeText(PlayerMainActivity.this, "clicked 4", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+        builder.create().show();
     }
 
 
 
     public void setUpImageGrid(){
 
-        RecyclerView recyclerView = findViewById(R.id.manager_recycler_id);
+        RecyclerView recyclerView = findViewById(R.id.player_recycler_id);
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
@@ -67,8 +97,13 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         mAdapter = new RecyclerViewAdapter(getApplicationContext(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onElementClicked(int position) {
-                Toast.makeText(ManagerMainActivity.this, "Element: " + mElements.get(position).getType(),Toast.LENGTH_SHORT).show();
-                openOptionsDialog( mElements.get(position));
+
+                if (mElements.get(position).getType().equals(AppConstants.BILLBOARD_TYPE)) {
+                    goToBillboard(position);
+                } else {
+                    goToRatingActivity(position);
+                }
+
 
             }
         });
@@ -76,41 +111,30 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void openOptionsDialog(final Element element) {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        Intent intent = new Intent(ManagerMainActivity.this , UpdateElementActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(AppConstants.USER , mUser);
-                        bundle.putSerializable(AppConstants.ELEMENT , element);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(ManagerMainActivity.this);
-        builder.setTitle("Update Element?").setMessage("Are you sure you want to update this Element? ")
-                .setPositiveButton("Yes", dialogClickListener).show();
-
+    private void goToBillboard(int position) {
+        Intent intent = new Intent(PlayerMainActivity.this , BillboardElementActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.USER , mUser);
+        bundle.putSerializable(AppConstants.ELEMENT , mElements.get(position));
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
+    private void goToRatingActivity(int position) {
+//        Intent intent = new Intent(PlayerMainActivity.this , BillboardElementActivity.class);
+//        startActivity(intent);
+    }
 
     private void initializeUI() {
-        mUpdateUser = (Button)findViewById(R.id.manager_update_user_btn_id);
-        mAddElementBtn = (Button)findViewById(R.id.create_element_btn_id);
-        mSearchElements = (Button)findViewById(R.id.manager_search_elements_btn_id);
-        mProgressBar = (ProgressBar)findViewById(R.id.manager_progress_bar_id);
+        mUpdateUser = (Button)findViewById(R.id.player_update_user_btn_id);
+        mSearchElements = (Button)findViewById(R.id.player_search_elements_btn_id);
+        mProgressBar = (ProgressBar)findViewById(R.id.player_progress_bar_id);
+        mPlayerPoints = (TextView)findViewById(R.id.player_point_txt);
+        mPlayerPoints.setText("Points: " +mUser.getPoints());
         setUpImageGrid();
         setListeners();
     }
-
-
 
 
     @Override
@@ -118,7 +142,6 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         super.onStart();
         fetchElements();
     }
-
 
     private void fetchElements() {
         String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + "/" + mUser.getPlayground() + "/" +mUser.getEmail() + "/" + "all";
@@ -129,15 +152,15 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
     private void bindElements(JSONArray jsonArray) {
         try {
 
-        for (int i = 0 ; i < jsonArray.length() ; i++) {
-                Element e = new Element();
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                ElementTO e = new ElementTO();
                 JSONObject object = jsonArray.getJSONObject(i);
                 e.setName(object.getString("name"));
                 e.setId(object.getString("id"));
                 e.setType(object.getString("type"));
                 e.setPlayground(object.getString("playground"));
                 mElements.add(e);
-        }
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -150,25 +173,12 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         mUpdateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManagerMainActivity.this , UpdateUserActivity.class);
+                Intent intent = new Intent(PlayerMainActivity.this, UpdateUserActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(AppConstants.USER , mUser);
+                bundle.putSerializable(AppConstants.USER, mUser);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
-            }
-        });
-
-
-
-        mAddElementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ManagerMainActivity.this , CreateElementActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(AppConstants.USER , mUser);
-                intent.putExtras(bundle);
-                startActivity(intent);
             }
         });
 
@@ -178,8 +188,6 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
 
             }
         });
-
-
     }
 
 
@@ -190,7 +198,7 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Intent intent = new Intent(ManagerMainActivity.this , LoginActivity.class);
+                        Intent intent = new Intent(PlayerMainActivity.this , LoginActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -202,11 +210,14 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ManagerMainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerMainActivity.this);
         builder.setTitle("Log Out").setMessage("Are you sure you want to log out? ")
                 .setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
 
     }
+
+
+
 
     @Override
     public void onSuccess(final String myResponse , final String event) {
@@ -219,7 +230,7 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
                 try {
                     arr = new JSONArray(myResponse);
                     bindElements(arr);
-                    } catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -233,7 +244,7 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
             @Override
             public void run() {
                 mProgressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(ManagerMainActivity.this , error , Toast.LENGTH_LONG).show();
+                Toast.makeText(PlayerMainActivity.this , error , Toast.LENGTH_LONG).show();
             }
         });
     }

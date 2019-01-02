@@ -1,10 +1,5 @@
 package com.example.ran.ratingplayground_client.utils;
 
-import android.util.Log;
-
-import com.example.ran.ratingplayground_client.activities.LoginActivity;
-import com.example.ran.ratingplayground_client.model.NewUserForm;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -12,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -58,7 +52,7 @@ public class HttpRequestsHandler {
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .put(body)
                 .build();
 
         mClient.newCall(request).enqueue(new Callback() {

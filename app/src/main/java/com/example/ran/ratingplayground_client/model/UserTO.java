@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class UserTO implements Serializable {
     private String email;
     private String playground;
     private String username;
@@ -15,11 +15,11 @@ public class User implements Serializable {
     private int code;
 
 
-    public User(){
+    public UserTO(){
 
     }
 
-    public User(String email, String playground, String username, String avatar, String role, long points){
+    public UserTO(String email, String playground, String username, String avatar, String role, long points){
         this.email = email;
         this.playground = playground;
         this.username = username;
@@ -86,8 +86,8 @@ public class User implements Serializable {
 
 
     // Decodes business json into business model object
-    public static User fromJson(JSONObject jsonObject) {
-        User u = new User();
+    public static UserTO fromJson(JSONObject jsonObject) {
+        UserTO u = new UserTO();
 
         // Deserialize json into object fields
         try {

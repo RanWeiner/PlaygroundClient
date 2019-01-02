@@ -1,21 +1,20 @@
 package com.example.ran.ratingplayground_client.model;
 
-import org.json.JSONArray;
+import com.example.ran.ratingplayground_client.utils.Parser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
-public class Element implements Serializable {
+public class ElementTO implements Serializable {
 
     private String playground;
     private String id;
-    private Double x;
-    private Double y;
+    private double x;
+    private double y;
     private String name;
     private Date creationDate;
     private Date expirationDate;
@@ -24,13 +23,15 @@ public class Element implements Serializable {
     private String creatorPlayground;
     private String creatorEmail;
 
-    public Element(){
+
+
+    public ElementTO(){
 
     }
 
-    public Element(String playground, String id, Double x, Double y, String name, Date creationDate,
-                         Date expirationDate, String type, Map<String, Object> attributes, String creatorPlayground,
-                         String creatorEmail) {
+    public ElementTO(String playground, String id, Double x, Double y, String name, Date creationDate,
+                     Date expirationDate, String type, Map<String, Object> attributes, String creatorPlayground,
+                     String creatorEmail) {
         super();
         this.playground = playground;
         this.id = id;
@@ -45,22 +46,36 @@ public class Element implements Serializable {
         this.creatorEmail = creatorEmail;
     }
 
-    public static Element fromJson(JSONObject json) {
-        Element e = new Element();
 
-        // Deserialize json into object fields
+    public double getX() {
+        return x;
+    }
+
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
+    }
+
+    public static ElementTO fromJson(JSONObject json) {
+        ElementTO e = new ElementTO();
         try {
-
-//            e.x = x;
-//            e.y = y;
-//            e.creationDate = json.get("creationDate");
-//            e.expirationDate = expirationDate;
-//            e.attributes = attributes;
 
             e.playground = json.getString("playground");
             e.id = json.getString("id");
             e.name = json.getString("name");
             e.type = json.getString("type");;
+
+            JSONObject location = json.getJSONObject("location");
+            e.x = location.getDouble("x");
+            e.y = location.getDouble("y");
+
             e.creatorPlayground = json.getString("creatorPlayground");
             e.creatorEmail = json.getString("creatorEmail");
 
@@ -68,7 +83,7 @@ public class Element implements Serializable {
             ex.printStackTrace();
             return null;
         }
-        // Return new object
+
         return e;
     }
 
@@ -153,15 +168,14 @@ public class Element implements Serializable {
         try {
             jsonObject.put("name", this.name);
             jsonObject.put("type", this.type);
-            jsonObject.put("playground", this.creatorPlayground);
-
+            jsonObject.put("playground", this.playground);
             locationObject.put("x" , this.x);
             locationObject.put("y" , this.y);
             jsonObject.put("location" , locationObject);
 //            jsonObject.put("expirationDate", this.expirationDate.toString());
-//            jsonObject.put("creatorEmail", this.creatorEmail);
-//            jsonObject.put("creatorPlayground", this.creatorPlayground);
-//            jsonObject.put("moreAttributes", this.attributes);
+            jsonObject.put("creatorEmail", this.creatorEmail);
+            jsonObject.put("creatorPlayground", this.creatorPlayground);
+            jsonObject.put("moreAttributes", this.attributes);
 
 
 

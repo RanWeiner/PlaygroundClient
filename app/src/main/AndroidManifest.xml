@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashScreen">
+        <activity android:name=".activities.common.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +21,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.RegisterUserActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.CreateElementActivity" />
-        <activity android:name=".activities.ManagerMainActivity" />
-        <activity android:name=".activities.PlayerMainActivity" />
+        <activity android:name=".activities.common.RegisterUserActivity" />
+        <activity android:name=".activities.common.LoginActivity" />
+        <activity android:name=".activities.manager.CreateElementActivity" />
+        <activity android:name=".activities.manager.ManagerMainActivity" />
+        <activity android:name=".activities.player.PlayerMainActivity" />
         <activity android:name=".activities.VerifyUserActivity" />
-        <activity android:name=".activities.UpdateUserActivity" />
-        <activity android:name=".activities.BillboardElementActivity" />
-        <activity android:name=".activities.UpdateElementActivity"></activity>
+        <activity android:name=".activities.common.UpdateUserActivity" />
+        <activity android:name=".activities.player.BillboardElementActivity" />
+        <activity android:name=".activities.manager.UpdateElementActivity"></activity>
     </application>
 
 </manifest>

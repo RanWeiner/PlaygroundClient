@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.common;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,9 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.ran.ratingplayground_client.R;
-import com.example.ran.ratingplayground_client.model.User;
+import com.example.ran.ratingplayground_client.activities.manager.ManagerMainActivity;
+import com.example.ran.ratingplayground_client.activities.player.PlayerMainActivity;
+import com.example.ran.ratingplayground_client.model.UserTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 
@@ -20,7 +22,7 @@ import org.json.JSONObject;
 
 public class UpdateUserActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener {
     private String updatedUserName, updatedRole , updatedAvatar;
-    private User mUser;
+    private UserTO mUser;
     private Button mApplyBtn, mCancelBtn;
     private EditText mUsernameText;
     private RadioButton mManagerRadioBtn , mPlayerRadioBtn;
@@ -34,7 +36,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
         setContentView(R.layout.activity_update_user);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        mUser = (User)bundle.getSerializable(AppConstants.USER);
+        mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
 
         updatedRole = mUser.getRole();
         updatedAvatar = mUser.getAvatar();
@@ -134,14 +136,16 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
         if (dirty == true) {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("username", mUser.getAvatar());
+                jsonObject.put("email" , mUser.getEmail());
+                jsonObject.put("playground" , mUser.getPlayground());
+                jsonObject.put("username", mUser.getUsername());
                 jsonObject.put("avatar", mUser.getAvatar());
                 jsonObject.put("role", mUser.getRole());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            String url = AppConstants.HTTP_USER + mUser.getPlayground() + "/" + mUser.getEmail();
+            String url =  AppConstants.HOST + AppConstants.HTTP_USER + mUser.getPlayground() + "/" + mUser.getEmail();
             mHandler.putRequest(url , AppConstants.EVENT_UPDATE_USER , jsonObject);
         } else {
             goToLastActivity();
@@ -151,7 +155,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
 
 
     private void setRadioButtons() {
-        if (mUser.getRole() == AppConstants.PLAYER) {
+        if (mUser.getRole().equals(AppConstants.PLAYER)) {
             mPlayerRadioBtn.setChecked(true);
             updatedRole = AppConstants.PLAYER;
         } else {
@@ -161,7 +165,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
     }
 
 
-    public void onRadioBtnClicked(View view) {
+    public void onRoleRadioBtnClicked(View view) {
 
         boolean checked = ((RadioButton)view).isChecked();
 
@@ -197,7 +201,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
 
 
     private void goToLastActivity() {
-        if (mUser.getRole() == AppConstants.PLAYER) {
+        if (mUser.getRole().equals(AppConstants.PLAYER)) {
             goToPlayerMainActivity();
         } else {
             goToManagerMainActivity();

@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.common;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.ran.ratingplayground_client.R;
 import com.example.ran.ratingplayground_client.model.NewUserForm;
-import com.example.ran.ratingplayground_client.model.User;
+import com.example.ran.ratingplayground_client.model.UserTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 import com.example.ran.ratingplayground_client.utils.InputValidation;
@@ -138,18 +138,8 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
 
 
     private void registerUser() {
-        mUserKey = AppConstants.PLAYGROUND + AppConstants.DELIMITER+ mEmail;
-//        mNewUserForm = new NewUserForm(mEmail , mUsername , mAvatarImagePath, mRole);
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("username", mUsername);
-            jsonObject.put("email", mEmail);
-            jsonObject.put("avatar", mAvatarImagePath);
-            jsonObject.put("role", mRole);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        mNewUserForm = new NewUserForm(mEmail , mUsername , mAvatarImagePath, mRole);
+        JSONObject jsonObject = mNewUserForm.toJson();
         String url = AppConstants.HOST + AppConstants.HTTP_USER;
         mHandler.postRequest(url ,AppConstants.EVENT_REGISTER , jsonObject);
     }
@@ -167,6 +157,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
         }
 
 
+
     }
 
 
@@ -174,18 +165,18 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     private void userRegistered(final String myResponse) {
         runOnUiThread(new Runnable() {
             JSONObject json = null;
-            User user = null;
+            UserTO user = null;
             @Override
             public void run() {
                 Toast.makeText(RegisterUserActivity.this , "registered successfully!" , Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.INVISIBLE);
                 try {
                     json = new JSONObject(myResponse);
-                    user =  User.fromJson(json);
+                    user =  UserTO.fromJson(json);
+                    verifyUser(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                verifyUser(user);
             }
         });
     }
@@ -201,13 +192,13 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
         });
     }
 
-    private void verifyUser(User user) {
+    private void verifyUser(UserTO user) {
         Log.i("USER CODE" , "Code: "+ user.getCode());
         showVerificationDialog(user);
     }
 
 
-private void showVerificationDialog(final User user) {
+private void showVerificationDialog(final UserTO user) {
     final EditText input = new EditText(RegisterUserActivity.this);
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     input.setLayoutParams(lp);
@@ -229,19 +220,6 @@ private void showVerificationDialog(final User user) {
     alertDialog.show();
 }
 
-    private void goToManagerMainActivity(User user) {
-        Intent intent = new Intent(RegisterUserActivity.this , ManagerMainActivity.class);
-        intent.putExtra(AppConstants.USER , user);
-        startActivity(intent);
-        finish();
-    }
-
-    private void goToPlayerMainActivity(User user) {
-        Intent intent = new Intent(RegisterUserActivity.this , PlayerMainActivity.class);
-        intent.putExtra(AppConstants.USER , user);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void onFailed(final String error) {

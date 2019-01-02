@@ -1,5 +1,8 @@
 package com.example.ran.ratingplayground_client.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class NewUserForm {
     private String email;
     private String username;
@@ -43,5 +46,18 @@ public class NewUserForm {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", this.username);
+            jsonObject.put("email", this.email);
+            jsonObject.put("avatar", this.avatarImagePath);
+            jsonObject.put("role", this.role);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

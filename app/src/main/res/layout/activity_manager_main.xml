@@ -7,7 +7,7 @@
     android:background="@color/black"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context=".activities.ManagerMainActivity">
+    tools:context=".activities.manager.ManagerMainActivity">
 
 
     <android.support.v7.widget.RecyclerView

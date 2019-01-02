@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.common;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

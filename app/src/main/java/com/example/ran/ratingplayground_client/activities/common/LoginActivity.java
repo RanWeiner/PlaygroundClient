@@ -1,4 +1,4 @@
-package com.example.ran.ratingplayground_client.activities;
+package com.example.ran.ratingplayground_client.activities.common;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,8 +12,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.ran.ratingplayground_client.model.Element;
-import com.example.ran.ratingplayground_client.model.User;
+import com.example.ran.ratingplayground_client.activities.manager.ManagerMainActivity;
+import com.example.ran.ratingplayground_client.activities.player.PlayerMainActivity;
+import com.example.ran.ratingplayground_client.model.UserTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 import com.example.ran.ratingplayground_client.utils.InputValidation;
@@ -22,11 +23,6 @@ import com.example.ran.ratingplayground_client.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
 
 
 public class LoginActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener {
@@ -60,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         mProgressBar.setVisibility(View.INVISIBLE);
 
         //just for DEBUG
-        mEmailText.setText("ran2@gmail.com");
+        mEmailText.setText("ratingtest1234@walla.com");
         mPlaygroundText.setText("ratingplayground");
 
         setButtonListeners();
@@ -121,10 +117,10 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
                     mProgressBar.setVisibility(View.VISIBLE);
                     signIn(mEmailText.getText().toString() , mPlaygroundText.getText().toString());
                 }
+
             }
         });
     }
-
 
 
 
@@ -135,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
 
 
 
-    private void goToManagerActivity(User user) {
+    private void goToManagerActivity(UserTO user) {
         Intent intent = new Intent(LoginActivity.this , ManagerMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConstants.USER , user);
@@ -146,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
 
 
 
-    private void goToPlayerActivity(User user) {
+    private void goToPlayerActivity(UserTO user) {
         Intent intent = new Intent(LoginActivity.this , PlayerMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConstants.USER , user);
@@ -189,11 +185,12 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mProgressBar.setVisibility(View.INVISIBLE);
                     JSONObject json = null;
-                    User user = null;
+                    UserTO user = null;
                     try {
                         json = new JSONObject(myResponse);
-                        user = User.fromJson(json);
+                        user = UserTO.fromJson(json);
 
                         switch (user.getRole()) {
                             case AppConstants.PLAYER:
