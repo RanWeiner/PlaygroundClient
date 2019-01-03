@@ -13,43 +13,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.2"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"
-        android:weightSum="3"
-        android:orientation="horizontal"
+        android:layout_weight="0.8"
+        android:weightSum="4"
+        android:orientation="vertical"
         >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/left_page_btn_id"
-            android:layout_gravity="left"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="LEFT"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_post_btn_id"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="Add"
-            />
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/right_page_btn_id"
-            android:layout_weight="1"
-            android:layout_gravity="right"
-            android:text="RIGHT"
-            />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/left_page_btn_id"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:text="LEFT"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_post_btn_id"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Add"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/right_page_btn_id"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:text="RIGHT"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/page_number_txt"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 

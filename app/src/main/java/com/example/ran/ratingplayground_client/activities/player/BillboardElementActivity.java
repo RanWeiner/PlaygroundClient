@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ran.ratingplayground_client.R;
@@ -38,6 +39,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     private List<ActivityTO> postList = new ArrayList<>();
     private RecyclerView recyclerView;
     private BillboardAdapter mAdapter;
+    private TextView pageNumberTextView;
     private UserTO mUser;
     private ElementTO mElement;
     private HttpRequestsHandler mHandler;
@@ -53,11 +55,21 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         Bundle bundle = intent.getExtras();
         mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
         mElement =(ElementTO)bundle.getSerializable(AppConstants.ELEMENT);
+        mCurrentPage = 0;
+        initializeUI();
         mHandler = HttpRequestsHandler.getInstance();
         mHandler.setResponseListener(this);
+    }
 
+
+    private void initializeUI() {
+        mAddPostBtn = (Button)findViewById(R.id.add_post_btn_id);
+        mLeftPageBtn = (Button)findViewById(R.id.left_page_btn_id);
+        mRightPageBtn = (Button)findViewById(R.id.right_page_btn_id);
+        pageNumberTextView = (TextView) findViewById(R.id.page_number_txt);
         recyclerView = (RecyclerView) findViewById(R.id.billboar_recycler_view);
 
+        pageNumberTextView.setText("" + (mCurrentPage + 1) + "/" + MAX_POST_PER_PAGE);
         mAdapter = new BillboardAdapter(postList);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -65,11 +77,22 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        setListeners();
+    }
 
-        mCurrentPage = 0;
-        mAddPostBtn = (Button)findViewById(R.id.add_post_btn_id);
-        mLeftPageBtn = (Button)findViewById(R.id.left_page_btn_id);
-        mRightPageBtn = (Button)findViewById(R.id.right_page_btn_id);
+    private void setListeners() {
+        mRightPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (postList.size() < MAX_POST_PER_PAGE) {
+                    Toast.makeText(BillboardElementActivity.this , "No more messages" , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCurrentPage++;
+                pageNumberTextView.setText("" + (mCurrentPage + 1) + "/" + MAX_POST_PER_PAGE);
+                fetchPosts();
+            }
+        });
 
         mAddPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,21 +109,11 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
                     return;
                 }
                 mCurrentPage--;
+                pageNumberTextView.setText("" + (mCurrentPage+1) + "/" + MAX_POST_PER_PAGE);
                 fetchPosts();
             }
         });
 
-        mRightPageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (postList.size() < MAX_POST_PER_PAGE) {
-                    Toast.makeText(BillboardElementActivity.this , "No more messages" , Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mCurrentPage++;
-                fetchPosts();
-            }
-        });
 
     }
 
