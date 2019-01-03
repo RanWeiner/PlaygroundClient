@@ -11,8 +11,11 @@ public class AppConstants {
     public static final String BOOK_TYPE = "book";
     public static final String MOVIE_TYPE = "movie";
     public static final String BILLBOARD_TYPE = "billboard";
-
-
+    public static final String MESSAGE = "message";
+    public static final String MESSAGES = "messages";
+    public static final String ATTRIBUTES = "attributes";
+    public static final String PAGE = "page";
+    public static final String SIZE = "size";
 
     //emulator
 //    public static final String HOST = "http://10.0.2.2:8084";
@@ -24,11 +27,7 @@ public class AppConstants {
     public static final String HTTP_USER ="/playground/users/";
     public static final String HTTP_VERIFY_USER = "/playground/users/confirm/";
     public static final String HTTP_GET_USER = "/playground/users/login";
-
-
     public static final String HTTP_ELEMENT = "/playground/elements/";
-
-    //public static final String HTTP_CREATE_ELEMENT = "/playground/elements/{userPlayground}/{email}/{playground}/{id}";
     public static final String HTTP_ACTIVITIES = "/playground/activities/";
 
 

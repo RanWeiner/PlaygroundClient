@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
     private String updatedUserName, updatedRole , updatedAvatar;
     private UserTO mUser;
     private Button mApplyBtn, mCancelBtn;
+    private ImageButton mUpdateAvatarBtn;
     private EditText mUsernameText;
     private RadioButton mManagerRadioBtn , mPlayerRadioBtn;
     private ProgressBar mProgressBar;
@@ -56,7 +58,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
         mProgressBar = (ProgressBar)findViewById(R.id.update_user_progress_bar_id);
         mApplyBtn = (Button) findViewById(R.id.apply_changes_btn_id);
         mCancelBtn = (Button) findViewById(R.id.cancel_changes_btn_id);
-
+        mUpdateAvatarBtn = (ImageButton)findViewById(R.id.update_avatar_btn_id);
         mUsernameText.setText(mUser.getUsername());
         setRadioButtons();
         setButtonListeners();

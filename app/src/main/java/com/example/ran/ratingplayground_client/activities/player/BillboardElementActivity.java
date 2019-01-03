@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     private UserTO mUser;
     private ElementTO mElement;
     private HttpRequestsHandler mHandler;
-    private Button mAddPostBtn , mLeftPageBtn , mRightPageBtn;
+    private ImageButton mAddPostBtn , mLeftPageBtn , mRightPageBtn;
     private ActivityTO mPost , mRead;
     private int mCurrentPage;
 
@@ -63,9 +64,9 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
 
 
     private void initializeUI() {
-        mAddPostBtn = (Button)findViewById(R.id.add_post_btn_id);
-        mLeftPageBtn = (Button)findViewById(R.id.left_page_btn_id);
-        mRightPageBtn = (Button)findViewById(R.id.right_page_btn_id);
+        mAddPostBtn = (ImageButton)findViewById(R.id.add_post_btn_id);
+        mLeftPageBtn = (ImageButton)findViewById(R.id.left_page_btn_id);
+        mRightPageBtn = (ImageButton)findViewById(R.id.right_page_btn_id);
         pageNumberTextView = (TextView) findViewById(R.id.page_number_txt);
         recyclerView = (RecyclerView) findViewById(R.id.billboar_recycler_view);
 
@@ -148,7 +149,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
 //        attributes.put("year",year);
 //        attributes.put("post" , postText);
 //        attributes.put("user" , mUser.getUsername());
-        attributes.put("message" , postText);
+        attributes.put(AppConstants.MESSAGE , postText);
 
         mPost = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_POST_MESSAGE,
                 mUser.getPlayground(), mUser.getEmail(),attributes);
@@ -179,8 +180,8 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         postList.clear();
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("page", mCurrentPage);
-        attributes.put("size", MAX_POST_PER_PAGE);
+        attributes.put(AppConstants.PAGE, mCurrentPage);
+        attributes.put(AppConstants.SIZE, MAX_POST_PER_PAGE);
 
         mRead = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_READ_MESSAGES,
                 mUser.getPlayground(), mUser.getEmail(),attributes);
@@ -223,8 +224,8 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
 
     private void bindPosts(JSONObject jsonObject) {
         try {
-            JSONObject attributes = jsonObject.getJSONObject("attributes");
-            JSONArray arr = attributes.getJSONArray("messages");
+            JSONObject attributes = jsonObject.getJSONObject(AppConstants.ATTRIBUTES);
+            JSONArray arr = attributes.getJSONArray(AppConstants.MESSAGES);
 
             for (int i = 0 ; i < arr.length() ; i++) {
                 JSONObject object = arr.getJSONObject(i);

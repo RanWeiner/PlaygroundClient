@@ -25,6 +25,7 @@
     android:textColorHint="@color/white"
     android:inputType="textPersonName"
     android:drawableLeft="@drawable/ic_username"
+    android:drawablePadding="5dp"
     android:id="@+id/username_text"/>
 
     <EditText
@@ -36,6 +37,7 @@
     android:textColorHint="@color/white"
     android:inputType="textEmailAddress"
     android:drawableLeft="@drawable/ic_email"
+    android:drawablePadding="5dp"
     android:id="@+id/email_text"/>
 
 
@@ -76,16 +78,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:textSize="15dp"
+        android:layout_gravity="center"
         android:text="Select Avatar:"
         />
 
-    <Button
+    <ImageButton
+        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/avatar_btn_id"
-        android:background="#80ffffff"
-        android:text="..."/>
+        android:background="@null"
+        android:src="@drawable/attach" />
 
 
 </LinearLayout>

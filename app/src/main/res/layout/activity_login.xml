@@ -31,7 +31,8 @@
         android:textColorHint="@color/white"
         android:inputType="textEmailAddress"
         android:id="@+id/email_login_text"
-        android:drawableLeft="@drawable/ic_email"/>
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="5dp"/>
 
     <EditText
         android:layout_weight="0.1"
@@ -45,7 +46,8 @@
         android:textColorHint="@color/white"
         android:inputType="textPersonName"
         android:id="@+id/playground_login_text"
-        android:drawableLeft="@drawable/ic_playground"/>
+        android:drawableLeft="@drawable/ic_playground"
+        android:drawablePadding="5dp"/>
 
     <ProgressBar
         android:layout_weight="0.1"

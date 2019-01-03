@@ -5,23 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="3"
     tools:context=".activities.manager.UpdateElementActivity">
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:hint="Name"
+        android:hint="Element Name"
         android:inputType="textPersonName"
         android:drawableLeft="@drawable/ic_username"
+        android:drawablePadding="5dp"
         android:id="@+id/update_element_name_text"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:hint="Expiration Date"
         android:textColor="@color/white"
         android:clickable="true"
@@ -30,18 +38,21 @@
         android:focusableInTouchMode="false"
         android:textColorHint="@color/white"
         android:inputType="date"
-        android:drawableLeft="@drawable/ic_username"
+        android:drawableLeft="@drawable/ic_date"
+        android:drawablePadding="5dp"
         android:id="@+id/update_element_expiration_date_text_id"/>
 
 
     <RadioGroup
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/update_type_radiogroup_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
         <RadioButton
+
             android:id="@+id/update_billboard_radio_btn"
             android:text="Billboard"
             android:textColor="@color/white"
@@ -70,32 +81,57 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         android:hint="Latitude"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:inputType="number"
         android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="5dp"
         android:id="@+id/update_element_x_text_id"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         android:hint="Longitude"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:inputType="number"
         android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="5dp"
         android:id="@+id/update_element_y_text_id"/>
 
-    <ProgressBar
-        android:id="@+id/update_progress_bar_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create"
-        android:id="@+id/update_element_btn_id"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/update_progress_bar_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#c2c2c2"
+            android:text="CREATE"
+            android:textColor="#491222"
+            android:id="@+id/update_element_btn_id"/>
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

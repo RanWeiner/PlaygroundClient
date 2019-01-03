@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -26,7 +27,8 @@ import org.json.JSONObject;
 
 public class RegisterUserActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener {
 
-    private Button mRegisterBtn , mAvatarBtn;
+    private Button mRegisterBtn;
+    private ImageButton  mAvatarBtn;
     private EditText mEmailText, mUsernameText;
     private ProgressBar mProgressBar;
 
@@ -51,7 +53,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     private void initializeUI() {
 
         mRegisterBtn = (Button)findViewById(R.id.register_activiy_register_btn);
-        mAvatarBtn = (Button)findViewById(R.id.avatar_btn_id);
+        mAvatarBtn = (ImageButton)findViewById(R.id.avatar_btn_id);
         mEmailText = (EditText)findViewById(R.id.email_text);
         mUsernameText = (EditText)findViewById(R.id.username_text);
         mProgressBar = (ProgressBar)findViewById(R.id.register_progress_bar_id);

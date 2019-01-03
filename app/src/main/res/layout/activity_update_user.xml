@@ -5,87 +5,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="3"
     tools:context=".activities.common.UpdateUserActivity">
 
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:inputType="textPersonName"
-        android:drawableLeft="@drawable/ic_username"
-        android:id="@+id/update_username_text"/>
-
-
-    <RadioGroup
-        android:layout_marginTop="20dp"
-        android:id="@+id/update_radio_group_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
         >
-
-        <RadioButton
-            android:id="@+id/update_player_radio_btn"
-            android:text="Player"
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:onClick="onRoleRadioBtnClicked"
-            />
+            android:textColorHint="@color/white"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_username"
+            android:drawablePadding="5dp"
+            android:id="@+id/update_username_text"/>
 
-        <RadioButton
-            android:id="@+id/update_manager_radio_btn"
-            android:text="Manager"
-            android:textColor="@color/white"
+
+        <RadioGroup
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/update_radio_group_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+
+                android:id="@+id/update_player_radio_btn"
+                android:text="Player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:onClick="onRoleRadioBtnClicked"
+                />
+
+            <RadioButton
+                android:id="@+id/update_manager_radio_btn"
+                android:text="Manager"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRoleRadioBtnClicked"/>
+
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onRoleRadioBtnClicked"/>
+            android:orientation="horizontal">
 
-    </RadioGroup>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:text="Update Avatar:"
+                />
 
+            <ImageButton
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/update_avatar_btn_id"
+                android:background="@null"
+                android:src="@drawable/attach" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ProgressBar
+            android:id="@+id/update_user_progress_bar_id"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/apply_changes_btn_id"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="Update Avatar:"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#c2c2c2"
+            android:text="Apply"
+            android:textColor="#491222"
             />
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/cancel_changes_btn_id"
+            android:text="Cancel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/update_avatar_btn_id"
-            android:background="#80ffffff"
-            android:text="..."/>
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#c2c2c2"
+            android:textColor="#491222"
+
+            />
+
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/update_user_progress_bar_id"
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/apply_changes_btn_id"
-        android:text="Apply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    <Button
-        android:id="@+id/cancel_changes_btn_id"
-        android:text="Cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+    </LinearLayout>
 
 
-</LinearLayout>
