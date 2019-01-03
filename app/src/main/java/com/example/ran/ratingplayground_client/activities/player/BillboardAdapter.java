@@ -1,7 +1,5 @@
 package com.example.ran.ratingplayground_client.activities.player;
 
-import android.app.Activity;
-import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +16,13 @@ public class BillboardAdapter extends RecyclerView.Adapter<BillboardAdapter.MyVi
         private List<ActivityTO> postList;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView title, author , year;
+            public TextView userTextView, messageTextView, year;
 
             public MyViewHolder(View view) {
                 super(view);
-                title = (TextView) view.findViewById(R.id.title);
-                author = (TextView) view.findViewById(R.id.author);
-                year = (TextView) view.findViewById(R.id.year);
+//                userTextView = (TextView) view.findViewById(R.id.title);
+                messageTextView = (TextView) view.findViewById(R.id.author);
+//                year = (TextView) view.findViewById(R.id.year);
             }
         }
 
@@ -44,9 +42,9 @@ public class BillboardAdapter extends RecyclerView.Adapter<BillboardAdapter.MyVi
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             ActivityTO post = postList.get(position);
-            holder.title.setText((String)post.getAttributes().get("user"));
-            holder.author.setText((String)post.getAttributes().get("post"));
-            holder.year.setText((String)post.getAttributes().get("year"));
+//            holder.userTextView.setText((String)post.getAttributes().get("user"));
+            holder.messageTextView.setText((String)post.getAttributes().get("message"));
+//            holder.year.setText((String)post.getAttributes().get("year"));
         }
 
         @Override

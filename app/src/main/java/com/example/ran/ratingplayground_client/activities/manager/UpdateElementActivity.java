@@ -140,7 +140,7 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
 
     private boolean validateUserInput() {
 
-        //validate title
+        //validate userTextView
         if (!InputValidation.validateUserInput(mName)) {
             nameText.setError("Title is required");
             nameText.requestFocus();

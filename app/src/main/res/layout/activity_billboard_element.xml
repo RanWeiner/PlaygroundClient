@@ -11,18 +11,46 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/billboar_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_weight="0.9"/>
+        android:layout_weight="0.1"/>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_post_btn_id"
-        android:layout_weight="0.1"
-        android:layout_gravity="center"
-        android:text="Add"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/left_page_btn_id"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:text="LEFT"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_post_btn_id"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Add"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/right_page_btn_id"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:text="RIGHT"
+            />
+
+    </LinearLayout>
+
 
 </LinearLayout>

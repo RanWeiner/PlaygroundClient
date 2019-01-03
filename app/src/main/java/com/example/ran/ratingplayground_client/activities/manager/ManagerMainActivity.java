@@ -308,7 +308,6 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
             @Override
             public void run() {
                 mProgressBar.setVisibility(View.INVISIBLE);
-                JSONObject json = null;
                 JSONArray arr = null;
                 try {
                     arr = new JSONArray(myResponse);

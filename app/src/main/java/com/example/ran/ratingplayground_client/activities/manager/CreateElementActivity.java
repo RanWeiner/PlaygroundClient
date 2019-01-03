@@ -126,7 +126,7 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
 
     private boolean validateUserInput() {
 
-        //validate title
+        //validate userTextView
         if (!InputValidation.validateUserInput(mName)) {
             nameText.setError("Name is required");
             nameText.requestFocus();
@@ -169,7 +169,6 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         e.setLocation(Double.parseDouble(xLocationText.getText().toString()),Double.parseDouble(yLocationText.getText().toString()));
 
         Map<String, Object> attributes = new HashMap<>();
-
 
         String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail();
         JSONObject jsonObject = e.toJson();

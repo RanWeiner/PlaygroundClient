@@ -34,15 +34,16 @@ import java.util.List;
 import java.util.Map;
 
 public class BillboardElementActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
-
+    public static final int MAX_POST_PER_PAGE = 10;
     private List<ActivityTO> postList = new ArrayList<>();
     private RecyclerView recyclerView;
     private BillboardAdapter mAdapter;
     private UserTO mUser;
     private ElementTO mElement;
     private HttpRequestsHandler mHandler;
-    private Button mAddPostBtn;
+    private Button mAddPostBtn , mLeftPageBtn , mRightPageBtn;
     private ActivityTO mPost , mRead;
+    private int mCurrentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +66,39 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        mCurrentPage = 0;
         mAddPostBtn = (Button)findViewById(R.id.add_post_btn_id);
+        mLeftPageBtn = (Button)findViewById(R.id.left_page_btn_id);
+        mRightPageBtn = (Button)findViewById(R.id.right_page_btn_id);
+
         mAddPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 writeAndUploadPost();
+            }
+        });
+
+        mLeftPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentPage <= 0) {
+                    Toast.makeText(BillboardElementActivity.this , "You are in the first page", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCurrentPage--;
+                fetchPosts();
+            }
+        });
+
+        mRightPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (postList.size() < MAX_POST_PER_PAGE) {
+                    Toast.makeText(BillboardElementActivity.this , "No more messages" , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCurrentPage++;
+                fetchPosts();
             }
         });
 
@@ -103,11 +132,12 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         String year = "" + date.getYear();
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("year",year);
-        attributes.put("post" , postText);
-        attributes.put("user" , mUser.getUsername());
+//        attributes.put("year",year);
+//        attributes.put("post" , postText);
+//        attributes.put("user" , mUser.getUsername());
+        attributes.put("message" , postText);
 
-        mPost = new ActivityTO(AppConstants.PLAYGROUND, null, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_POST_MESSAGE,
+        mPost = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_POST_MESSAGE,
                 mUser.getPlayground(), mUser.getEmail(),attributes);
 
         String url = AppConstants.HOST + AppConstants.HTTP_ACTIVITIES + mUser.getPlayground() + "/" + mUser.getEmail();
@@ -133,26 +163,19 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     }
 
     private void fetchPosts() {
+        postList.clear();
 
-        mRead = new ActivityTO(AppConstants.PLAYGROUND, null, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_READ_MESSAGES,
-                mUser.getPlayground(), mUser.getEmail(),null);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("page", mCurrentPage);
+        attributes.put("size", MAX_POST_PER_PAGE);
 
+        mRead = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_READ_MESSAGES,
+                mUser.getPlayground(), mUser.getEmail(),attributes);
+
+        JSONObject jsonObject = mRead.toJson();
         String url = AppConstants.HOST + AppConstants.HTTP_ACTIVITIES + mUser.getPlayground() + "/" + mUser.getEmail();
-        mHandler.getRequest(url , AppConstants.EVENT_READ_ACTIVITY);
-//        ActivityEntity post;
-//        post = new ActivityEntity("Aliens", "Science Fiction", "1986");
-//        postList.add(post);
-//
-//        post = new ActivityEntity("Chicken Run", "Animation", "2000");
-//        postList.add(post);
-//
-//        post = new ActivityEntity("Back to the Future", "Science Fiction", "1985");
-//        postList.add(post);
-//
-//        post = new ActivityEntity("Raiders of the Lost Ark", "Action & Adventure", "1981");
-//        postList.add(post);
 
-
+        mHandler.postRequest(url , AppConstants.EVENT_READ_ACTIVITY , jsonObject);
     }
 
     @Override
@@ -169,11 +192,9 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
                         break;
 
                     case AppConstants.EVENT_READ_ACTIVITY:
-                        JSONObject json = null;
-                        JSONArray arr = null;
                         try {
-                            arr = new JSONArray(myResponse);
-                            bindPosts(arr);
+                            JSONObject jsonObject = new JSONObject(myResponse);
+                            bindPosts(jsonObject);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -187,12 +208,15 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     }
 
 
-    private void bindPosts(JSONArray arr) {
+    private void bindPosts(JSONObject jsonObject) {
         try {
+            JSONObject attributes = jsonObject.getJSONObject("attributes");
+            JSONArray arr = attributes.getJSONArray("messages");
+
             for (int i = 0 ; i < arr.length() ; i++) {
                 JSONObject object = arr.getJSONObject(i);
                 ActivityTO activityTO = ActivityTO.fromJson(object);
-                postList.add(activityTO);
+                postList.add(0,activityTO);
             }
 
         } catch (JSONException e) {
@@ -200,6 +224,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         }
         mAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void onFailed(final String error) {

@@ -54,41 +54,6 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
     }
 
 
-
-
-
-    private void openOptionsDialog() {
-
-        CharSequence[] customElementActivities = {"Guess Rank" , "See Rank" , "Post Review" , "See Review"};
-
-        CharSequence[] billboardActivities = {"Post" , "View"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerMainActivity.this);
-        builder.setTitle("Player Actions");
-        builder.setItems(new CharSequence[]{"Update", "button 2", "button 3", "button 4"},
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                Toast.makeText(PlayerMainActivity.this, "clicked 1", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1:
-                                Toast.makeText(PlayerMainActivity.this, "clicked 2", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 2:
-                                Toast.makeText(PlayerMainActivity.this, "clicked 3", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 3:
-                                Toast.makeText(PlayerMainActivity.this, "clicked 4", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-        builder.create().show();
-    }
-
-
-
     public void setUpImageGrid(){
 
         RecyclerView recyclerView = findViewById(R.id.player_recycler_id);

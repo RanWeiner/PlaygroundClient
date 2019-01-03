@@ -26,9 +26,19 @@ public class ActivityTO {
 
     public ActivityTO() {}
 
-    public ActivityTO(String playground, String id, String elementPlayground, String elementId, String type,
+    public ActivityTO(String playground, String elementPlayground, String elementId, String type,
                       String playerPlayground, String playerEmail, Map<String, Object> attributes) {
-        super();
+        this.playground = playground;
+        this.elementPlayground = elementPlayground;
+        this.elementId = elementId;
+        this.type = type;
+        this.playerPlayground = playerPlayground;
+        this.playerEmail = playerEmail;
+        this.attributes = attributes;
+    }
+
+    public ActivityTO(String playground,String id, String elementPlayground, String elementId, String type,
+                      String playerPlayground, String playerEmail, Map<String, Object> attributes) {
         this.playground = playground;
         this.id = id;
         this.elementPlayground = elementPlayground;
@@ -38,6 +48,7 @@ public class ActivityTO {
         this.playerEmail = playerEmail;
         this.attributes = attributes;
     }
+
     public String getPlayground() {
         return playground;
     }
@@ -107,21 +118,26 @@ public class ActivityTO {
         JSONObject jsonObject = new JSONObject();
         JSONObject attributes = new JSONObject();
         try {
-            jsonObject.put("playground", playground);
+            jsonObject.put("playground", this.playground);
             jsonObject.put("elementPlayground", this.elementPlayground);
-            jsonObject.put("elementId", elementId);
-            jsonObject.put("type", type);
-            jsonObject.put("playerPlayground" , playerPlayground);
-            jsonObject.put("playerEmail" , playerEmail);
+            jsonObject.put("elementId", this.elementId);
+            jsonObject.put("type", this.type);
+            jsonObject.put("playerPlayground" , this.playerPlayground);
+            jsonObject.put("playerEmail" , this.playerEmail);
 
-            //just handle post on billaboard
-            if (this.type.equals(AppConstants.BILLBOARD_TYPE)) {
-                attributes.put("post" , this.attributes.get("post"));
-                attributes.put("year" , this.attributes.get("year"));
-                attributes.put("user" , this.attributes.get("user"));
-            } else {
+            JSONObject json = new JSONObject(this.attributes);
+            jsonObject.put("attributes",json );
 
-            }
+//            //just handle post on billaboard
+//            if (this.type.equals(AppConstants.BILLBOARD_TYPE)) {
+//
+////                attributes.put("post" , this.attributes.get("post"));
+////                attributes.put("year" , this.attributes.get("year"));
+////                attributes.put("user" , this.attributes.get("user"));
+//
+//            } else {
+//
+//            }
 
 
         } catch (JSONException e) {
