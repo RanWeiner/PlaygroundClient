@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         mProgressBar.setVisibility(View.INVISIBLE);
 
         //just for DEBUG
-        mEmailText.setText("ratingtest1234@walla.com");
+        mEmailText.setText("ratingtest123@walla.com");
         mPlaygroundText.setText("ratingplayground");
 
         setButtonListeners();

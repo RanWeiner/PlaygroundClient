@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_weight="0.2">
+        android:layout_weight="0.3">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
+        android:layout_weight="0.7"
         android:weightSum="1"
         android:orientation="vertical">
 
@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/player_point_txt"
+            android:layout_gravity="left"
             />
 
         <ProgressBar
@@ -38,37 +39,46 @@
             android:layout_centerHorizontal="true"
             android:visibility="invisible"
             android:layout_gravity="center"
-            android:layout_weight="0.1"
             />
-
-
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.9"
-            android:weightSum="1"
+            android:weightSum="3"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/player_update_user_btn_id"
-                android:layout_weight="0.5"
-                android:text="Upadate User"
+                android:layout_weight="0.25"
+                android:text="Upadate"
                 />
-
-
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/player_search_elements_btn_id"
-                android:text="Search"
-                android:layout_weight="0.5"
+                android:id="@+id/player_search_elements_by_dist_btn_id"
+                android:text="Search Dist"
+                android:layout_weight="0.25"
                 />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player_search_elements_by_attr_btn_id"
+                android:text="Search Attr"
+                android:layout_weight="0.25"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player_show_all_btn_id"
+                android:text="all"
+                android:layout_weight="0.25"
+                />
         </LinearLayout>
     </LinearLayout>
 

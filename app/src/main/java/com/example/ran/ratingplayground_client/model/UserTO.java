@@ -107,4 +107,17 @@ public class UserTO implements Serializable {
     }
 
 
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", this.email);
+            jsonObject.put("playground", this.playground);
+            jsonObject.put("username", this.username);
+            jsonObject.put("role", this.role);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+
+    }
 }

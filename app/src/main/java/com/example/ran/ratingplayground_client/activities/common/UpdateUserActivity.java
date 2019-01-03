@@ -116,6 +116,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
 
     private void updateUser() {
         boolean dirty = false;
+        updatedUserName = mUsernameText.getText().toString();
 
         if (!updatedUserName.isEmpty() && !mUser.getUsername().equals(updatedUserName)) {
             mUser.setUsername(updatedUserName);
@@ -134,17 +135,7 @@ public class UpdateUserActivity extends AppCompatActivity implements HttpRequest
 
 
         if (dirty == true) {
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("email" , mUser.getEmail());
-                jsonObject.put("playground" , mUser.getPlayground());
-                jsonObject.put("username", mUser.getUsername());
-                jsonObject.put("avatar", mUser.getAvatar());
-                jsonObject.put("role", mUser.getRole());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            JSONObject jsonObject = mUser.toJson();
             String url =  AppConstants.HOST + AppConstants.HTTP_USER + mUser.getPlayground() + "/" + mUser.getEmail();
             mHandler.putRequest(url , AppConstants.EVENT_UPDATE_USER , jsonObject);
         } else {

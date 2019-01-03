@@ -30,8 +30,8 @@ import java.util.Map;
 public class CreateElementActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
     private Button mCreateBtn;
     private UserTO mUser;
-    private String mType , mDescription , mName;
-    private EditText descriptionText, nameText , expirationDateText , xLocationText, yLocationText;
+    private String mType , mName;
+    private EditText nameText , expirationDateText , xLocationText, yLocationText;
     private ProgressBar mProgressBar;
     private Date mExpirationDate;
     private HttpRequestsHandler mHandler;
@@ -78,7 +78,6 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
 
     private void initializeUI() {
         mCreateBtn = (Button)findViewById(R.id.create_btn_id);
-        descriptionText = (EditText)findViewById(R.id.element_description_text_id);
         nameText = (EditText)findViewById(R.id.element_name_text_id);
         mProgressBar = (ProgressBar)findViewById(R.id.create_progress_bar_id);
         expirationDateText = (EditText)findViewById(R.id.element_expiration_date_text_id);
@@ -115,8 +114,6 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
             @Override
             public void onClick(View v) {
                 mName = nameText.getText().toString();
-                mDescription = descriptionText.getText().toString();
-
                 boolean isValid = validateUserInput();
                 if (isValid){
                     mProgressBar.setVisibility(View.VISIBLE);
@@ -131,29 +128,29 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
 
         //validate title
         if (!InputValidation.validateUserInput(mName)) {
-            nameText.setError("Title is required");
+            nameText.setError("Name is required");
             nameText.requestFocus();
             return false;
         }
 
         //validate date
         if (!InputValidation.validateUserInput(expirationDateText.getText().toString())) {
-            expirationDateText.setError("Date is required");
+            expirationDateText.setError("Expiration Date is required");
             expirationDateText.requestFocus();
             return false;
         }
 
         //validate x
         if (!InputValidation.validateUserInput(xLocationText.getText().toString())) {
-            expirationDateText.setError("Date is required");
-            expirationDateText.requestFocus();
+            xLocationText.setError("latitude is required");
+            xLocationText.requestFocus();
             return false;
         }
 
         //validate y
-        if (!InputValidation.validateUserInput(xLocationText.getText().toString())) {
-            expirationDateText.setError("Date is required");
-            expirationDateText.requestFocus();
+        if (!InputValidation.validateUserInput(yLocationText.getText().toString())) {
+            yLocationText.setError("longitude is required");
+            yLocationText.requestFocus();
             return false;
         }
 
@@ -169,20 +166,10 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         e.setExpirationDate(mExpirationDate);
         e.setCreatorPlayground(mUser.getPlayground());
         e.setPlayground(AppConstants.PLAYGROUND);
-
-        double x = 0;
-        double y = 0;
-        if (xLocationText.getText().toString().isEmpty()) {
-            x = Double.parseDouble(xLocationText.getText().toString());
-        }
-        if (yLocationText.getText().toString().isEmpty()) {
-            y = Double.parseDouble(yLocationText.getText().toString());
-        }
-        e.setLocation(x,y);
+        e.setLocation(Double.parseDouble(xLocationText.getText().toString()),Double.parseDouble(yLocationText.getText().toString()));
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("description",mDescription);
-        e.setAttributes(attributes);
+
 
         String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail();
         JSONObject jsonObject = e.toJson();

@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -32,7 +35,7 @@ import java.util.List;
 
 public class ManagerMainActivity extends AppCompatActivity  implements HttpRequestsHandler.ResponseListener {
 
-    private Button mUpdateUser , mAddElementBtn , mSearchElements;
+    private Button mUpdateUser , mAddElementBtn , mSearchElementsByDist,mSearchElementsByAttribute, mShowAllBtn;
     private UserTO mUser;
     private List<ElementTO> mElements = new ArrayList<>();
     private RecyclerViewAdapter mAdapter;
@@ -103,7 +106,9 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
     private void initializeUI() {
         mUpdateUser = (Button)findViewById(R.id.manager_update_user_btn_id);
         mAddElementBtn = (Button)findViewById(R.id.create_element_btn_id);
-        mSearchElements = (Button)findViewById(R.id.manager_search_elements_btn_id);
+        mSearchElementsByDist = (Button)findViewById(R.id.manager_search_elements_by_dist_btn_id);
+        mSearchElementsByAttribute = (Button)findViewById(R.id.manager_search_elements_by_attr_btn_id);
+        mShowAllBtn = (Button)findViewById(R.id.manager_show_all_elements_btn_id);
         mProgressBar = (ProgressBar)findViewById(R.id.manager_progress_bar_id);
         setUpImageGrid();
         setListeners();
@@ -120,7 +125,8 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
 
 
     private void fetchElements() {
-        String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + "/" + mUser.getPlayground() + "/" +mUser.getEmail() + "/" + "all";
+        String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" +mUser.getEmail() + "/" + "all";
+        mElements.clear();
         mHandler.getRequest(getElementsURL , AppConstants.EVENT_GET_ELEMENTS);
     }
 
@@ -165,14 +171,109 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
             }
         });
 
-        mSearchElements.setOnClickListener(new View.OnClickListener() {
+        mSearchElementsByDist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                searchByDistDialog();
             }
         });
 
+        mSearchElementsByAttribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByAttributesDialog();
+            }
+        });
 
+        mShowAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchElements();
+            }
+        });
+
+    }
+
+    private void searchByDistDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_search_by_distance, null);
+        final EditText etLatitude = alertLayout.findViewById(R.id.et_latitude);
+        final EditText etLongitude = alertLayout.findViewById(R.id.et_longitude);
+        final EditText etDistance = alertLayout.findViewById(R.id.et_distance);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Search By Location");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (etLatitude.getText().toString().isEmpty() || etLatitude.getText().toString().isEmpty() || etDistance.getText().toString().isEmpty()) {
+                    Toast.makeText(getBaseContext(), "You must fill all the fields... ", Toast.LENGTH_SHORT).show();
+                } else {
+                    double latitude = Double.parseDouble(etLatitude.getText().toString());
+                    double longitude = Double.parseDouble(etLongitude.getText().toString());
+                    double distance = Double.parseDouble(etDistance.getText().toString());
+                    searchByDist(latitude , longitude , distance);
+                }
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    private void searchByDist(double x, double y , double distance) {
+        String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" +mUser.getEmail() + "/near/" +
+                x + "/" + y + "/" + distance;
+        mElements.clear();
+        mHandler.getRequest(getElementsURL , AppConstants.EVENT_GET_ELEMENTS);
+    }
+
+    private void searchByAttributesDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_search_by_attributes, null);
+        final EditText etAttribute = alertLayout.findViewById(R.id.et_attribute);
+        final EditText etValue = alertLayout.findViewById(R.id.et_value);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Info");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String attribute = etAttribute.getText().toString();
+                String value = etValue.getText().toString();
+
+                if (attribute.isEmpty() || value.isEmpty()) {
+                    Toast.makeText(getBaseContext(), "You must fill all the fields... ", Toast.LENGTH_SHORT).show();
+                } else {
+                    searchByAttributes(attribute , value);
+                }
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    private void searchByAttributes(String attribute, String value) {
+        String getElementsURL = AppConstants.HOST +  AppConstants.HTTP_ELEMENT +  mUser.getPlayground() + "/" +mUser.getEmail() + "/search/" +
+                attribute + "/" + value;
+        mElements.clear();
+        mHandler.getRequest(getElementsURL , AppConstants.EVENT_GET_ELEMENTS);
     }
 
 

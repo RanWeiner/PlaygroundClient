@@ -30,7 +30,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     private EditText mEmailText, mUsernameText;
     private ProgressBar mProgressBar;
 
-    private String mEmail,mUsername , mAvatarImagePath = "dummy" , mRole , mUserKey;
+    private String mEmail,mUsername , mAvatarImagePath = "dummy" , mRole ;
     private NewUserForm mNewUserForm;
 
     private HttpRequestsHandler mHandler;

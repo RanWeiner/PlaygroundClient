@@ -18,7 +18,7 @@ public class AppConstants {
 //    public static final String HOST = "http://10.0.2.2:8084";
 
     //real device
-    public static final String HOST = "http://10.100.102.19:8084";
+    public static final String HOST = "http://10.100.102.18:8084";
 
 
     public static final String HTTP_USER ="/playground/users/";
