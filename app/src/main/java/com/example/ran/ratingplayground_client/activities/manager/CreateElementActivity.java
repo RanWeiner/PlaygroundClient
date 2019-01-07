@@ -19,6 +19,8 @@ import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 import com.example.ran.ratingplayground_client.utils.InputValidation;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -90,6 +92,8 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
     private void setListeners() {
 
         final Calendar calendar = Calendar.getInstance();
+        final Calendar current = Calendar.getInstance();
+
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -97,8 +101,16 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
                 calendar.set(Calendar.MONTH , month);
                 calendar.set(Calendar.DAY_OF_MONTH , dayOfMonth);
 
-                mExpirationDate = calendar.getTime();
-                expirationDateText.setText(new SimpleDateFormat("yyyy-mm-dd").format(mExpirationDate));
+
+                Date chosenTime = calendar.getTime();
+                Date currentTime = current.getTime();
+                if (currentTime.after(chosenTime)) {
+                    Toast.makeText(CreateElementActivity.this, "Invalid Date Selection" , Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    mExpirationDate = chosenTime;
+                    expirationDateText.setText(new SimpleDateFormat("yyyy-MM-dd").format(mExpirationDate));
+                }
             }
         };
 
@@ -169,6 +181,14 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         e.setLocation(Double.parseDouble(xLocationText.getText().toString()),Double.parseDouble(yLocationText.getText().toString()));
 
         Map<String, Object> attributes = new HashMap<>();
+        if (e.getType().equals(AppConstants.MOVIE_TYPE)) {
+            attributes.put("image" , AppConstants.MOVIE_IMAGE_URL);
+        } else if (e.getType().equals(AppConstants.BOOK_TYPE)) {
+            attributes.put("image" , AppConstants.BOOK_IMAGE_URL);
+        } else {
+            attributes.put("image" , AppConstants.BILLBOARD_IMAGE_URL);
+        }
+        e.setAttributes(attributes);
 
         String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail();
         JSONObject jsonObject = e.toJson();
@@ -196,7 +216,8 @@ public class CreateElementActivity extends AppCompatActivity implements HttpRequ
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(CreateElementActivity.this , "created successfully!" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateElementActivity.this, "created successfully!", Toast.LENGTH_SHORT).show();
+
                 mProgressBar.setVisibility(View.INVISIBLE);
                 goToManagerMainActivity();
             }

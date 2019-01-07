@@ -11,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ran.ratingplayground_client.model.ElementTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -58,17 +62,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.textView.setText(elements.get(position).getName());
 
-        switch (elements.get(position).getType()) {
-            case AppConstants.BILLBOARD_TYPE:
-                holder.imageView.setImageResource(R.drawable.sign);
-                break;
-            case AppConstants.BOOK_TYPE:
-                holder.imageView.setImageResource(R.drawable.book);
-                break;
-            case AppConstants.MOVIE_TYPE:
-                holder.imageView.setImageResource(R.drawable.clapperboard);
-                break;
-        }
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .error(R.drawable.image_not_found)
+                .priority(Priority.HIGH);
+
+        ElementTO e = elements.get(position);
+        Map<String,Object> map = elements.get(position).getAttributes();
+        if (map != null)
+            Glide.with(mContext).load(map.get("image"))
+                .apply(options)
+                .into(holder.imageView);
+
+//                        .error(AppConstants.BOOK_IMAGE_URL).into(holder.imageView);
+//        switch (elements.get(position).getType()) {
+//            case AppConstants.BILLBOARD_TYPE:
+//                holder.imageView.setImageResource(R.drawable.sign);
+//                break;
+//            case AppConstants.BOOK_TYPE:
+//                holder.imageView.setImageResource(R.drawable.book);
+//                Glide.with(mContext).load(elements.get(position).getAttributes().get("image"))
+//                        .error(AppConstants.BOOK_IMAGE_URL).into(holder.imageView);
+//                break;
+//            case AppConstants.MOVIE_TYPE:
+//                holder.imageView.setImageResource(R.drawable.clapperboard);
+//                break;
+//        }
         holder.bind(position,listener);
     }
 

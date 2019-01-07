@@ -1,12 +1,18 @@
 package com.example.ran.ratingplayground_client.model;
 
+import android.util.Log;
+
 import com.example.ran.ratingplayground_client.utils.Parser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class ElementTO implements Serializable {
@@ -63,35 +69,11 @@ public class ElementTO implements Serializable {
         this.y = y;
     }
 
-    public static ElementTO fromJson(JSONObject json) {
-        ElementTO e = new ElementTO();
-        try {
-
-            e.playground = json.getString("playground");
-            e.id = json.getString("id");
-            e.name = json.getString("name");
-            e.type = json.getString("type");;
-
-            JSONObject location = json.getJSONObject("location");
-            e.x = location.getDouble("x");
-            e.y = location.getDouble("y");
-
-            e.creatorPlayground = json.getString("creatorPlayground");
-            e.creatorEmail = json.getString("creatorEmail");
-
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-        return e;
-    }
 
 
     public void setPlayground(String playground) {
         this.playground = playground;
     }
-
 
 
     public Map<String, Object> getAttributes() {
@@ -172,17 +154,54 @@ public class ElementTO implements Serializable {
             locationObject.put("x" , this.x);
             locationObject.put("y" , this.y);
             jsonObject.put("location" , locationObject);
-//            jsonObject.put("expirationDate", this.expirationDate.toString());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ");
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            String dateStr = sdf.format(expirationDate);
+            jsonObject.put("expirationDate" , dateStr );
+
             jsonObject.put("creatorEmail", this.creatorEmail);
             jsonObject.put("creatorPlayground", this.creatorPlayground);
-            jsonObject.put("moreAttributes", this.attributes);
 
-
+            JSONObject json = new JSONObject(this.attributes);
+            jsonObject.put("attributes",json );
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+
+    public static ElementTO fromJson(JSONObject json) {
+        ElementTO e = new ElementTO();
+        try {
+
+            e.playground = json.getString("playground");
+            e.id = json.getString("id");
+            e.name = json.getString("name");
+            e.type = json.getString("type");;
+
+            JSONObject location = json.getJSONObject("location");
+            e.x = location.getDouble("x");
+            e.y = location.getDouble("y");
+
+            e.creatorPlayground = json.getString("creatorPlayground");
+            e.creatorEmail = json.getString("creatorEmail");
+
+            String dateStr = json.getString("creationDate");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ");
+            Date creationDate = sdf.parse(dateStr);
+            e.creationDate = creationDate;
+            e.attributes = Parser.toMap(json.getJSONObject("attributes"));
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+            return null;
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+        return e;
     }
 
     public void setLocation(double x, double y) {

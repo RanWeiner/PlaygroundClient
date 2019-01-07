@@ -65,11 +65,12 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+        mProgressBar.setVisibility(View.INVISIBLE);
 
         mAdapter = new RecyclerViewAdapter(getApplicationContext(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onElementClicked(int position) {
-                Toast.makeText(ManagerMainActivity.this, "ElementTO: " + mElements.get(position).getType(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ManagerMainActivity.this, "ElementTO: " + mElements.get(position).getId(),Toast.LENGTH_SHORT).show();
                 openOptionsDialog( mElements.get(position));
 
             }
@@ -125,6 +126,7 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
 
 
     private void fetchElements() {
+        mProgressBar.setVisibility(View.VISIBLE);
         String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" +mUser.getEmail() + "/" + "all";
         mElements.clear();
         mHandler.getRequest(getElementsURL , AppConstants.EVENT_GET_ELEMENTS);

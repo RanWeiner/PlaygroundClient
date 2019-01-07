@@ -15,7 +15,12 @@
         android:scrollbars="vertical"
         android:layout_weight="0.2"/>
 
-
+    <ProgressBar
+        android:id="@+id/billboard_progress_bar_id"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

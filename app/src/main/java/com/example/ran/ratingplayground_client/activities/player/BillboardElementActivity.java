@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     private ImageButton mAddPostBtn , mLeftPageBtn , mRightPageBtn;
     private ActivityTO mPost , mRead;
     private int mCurrentPage;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         mAddPostBtn = (ImageButton)findViewById(R.id.add_post_btn_id);
         mLeftPageBtn = (ImageButton)findViewById(R.id.left_page_btn_id);
         mRightPageBtn = (ImageButton)findViewById(R.id.right_page_btn_id);
+        progressBar = (ProgressBar)findViewById(R.id.billboard_progress_bar_id);
         pageNumberTextView = (TextView) findViewById(R.id.page_number_txt);
         recyclerView = (RecyclerView) findViewById(R.id.billboar_recycler_view);
 
@@ -142,13 +145,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     }
 
     private void uploadPost(String postText) {
-        Date date = new Date();
-        String year = "" + date.getYear();
-
         Map<String, Object> attributes = new HashMap<>();
-//        attributes.put("year",year);
-//        attributes.put("post" , postText);
-//        attributes.put("user" , mUser.getUsername());
         attributes.put(AppConstants.MESSAGE , postText);
 
         mPost = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_POST_MESSAGE,
@@ -177,6 +174,8 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
     }
 
     private void fetchPosts() {
+
+        progressBar.setVisibility(View.VISIBLE);
         postList.clear();
 
         Map<String, Object> attributes = new HashMap<>();
@@ -197,12 +196,12 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                progressBar.setVisibility(View.INVISIBLE);
                 switch (event) {
                     case AppConstants.EVENT_POST_ACTIVITY:
                         Toast.makeText(BillboardElementActivity.this , "added successfully!" , Toast.LENGTH_SHORT).show();
                         postList.add(0, mPost);
-                        mAdapter.notifyDataSetChanged();
+                        fetchPosts();
                         break;
 
                     case AppConstants.EVENT_READ_ACTIVITY:
@@ -219,6 +218,7 @@ public class BillboardElementActivity extends AppCompatActivity implements HttpR
 
             }
         });
+
     }
 
 

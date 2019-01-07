@@ -105,6 +105,7 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
         mProgressBar = (ProgressBar)findViewById(R.id.player_progress_bar_id);
         mPlayerPoints = (TextView)findViewById(R.id.player_point_txt);
         mPlayerPoints.setText("Points: " +mUser.getPoints());
+        mProgressBar.setVisibility(View.INVISIBLE);
         setUpImageGrid();
         setListeners();
     }
@@ -117,6 +118,7 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
     }
 
     private void fetchElements() {
+        mProgressBar.setVisibility(View.VISIBLE);
         String getElementsURL = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" +mUser.getEmail() + "/" + "all";
         mElements.clear();
         mHandler.getRequest(getElementsURL , AppConstants.EVENT_GET_ELEMENTS);

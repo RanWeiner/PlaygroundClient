@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="3"
+    android:id="@+id/end_game_layout"
+    android:orientation="vertical"
+    tools:context=".activities.player.EndRatingActivity">
+
+
+    <ImageView
+        android:id="@+id/endGamePictureTop"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/endGamePictureDown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_above="@+id/final_points_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/final_points_id"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="YOUR POINTS"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="#80ffffff"
+            android:text="Main Menu"
+            android:textColor="#491222"
+            android:id="@+id/go_back_btn_id"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

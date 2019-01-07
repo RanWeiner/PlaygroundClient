@@ -16,6 +16,12 @@ public class AppConstants {
     public static final String ATTRIBUTES = "attributes";
     public static final String PAGE = "page";
     public static final String SIZE = "size";
+    public static final String RATING = "rating";
+
+
+    public static final String BOOK_IMAGE_URL = "https://cdn-images-1.medium.com/max/1500/1*OQXqTrTpXynrt85LeuaCnA.jpeg";
+    public static final String MOVIE_IMAGE_URL = "https://media.wired.com/photos/5b7350e75fc74d47846ce4e4/master/w_825,c_limit/Popcorn-869302844.jpg";
+    public static final String BILLBOARD_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Paper-notes.svg/768px-Paper-notes.svg.png";
 
     //emulator
 //    public static final String HOST = "http://10.0.2.2:8084";

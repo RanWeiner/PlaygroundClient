@@ -91,7 +91,7 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
         yLocationText = (EditText)findViewById(R.id.update_element_y_text_id);
 
         nameText.setText(mElement.getName());
-        expirationDateText.setText(mElement.getExpirationDate().toString());
+//        expirationDateText.setText(mElement.getExpirationDate().toString());
         xLocationText.setText(""+mElement.getX());
         yLocationText.setText(""+mElement.getY());
 
@@ -100,27 +100,28 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
 
 
     private void setListeners() {
-
         final Calendar calendar = Calendar.getInstance();
+        final Calendar current = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(Calendar.YEAR , year);
                 calendar.set(Calendar.MONTH , month);
                 calendar.set(Calendar.DAY_OF_MONTH , dayOfMonth);
-
-                mExpirationDate = calendar.getTime();
-                expirationDateText.setText(new SimpleDateFormat("yyyy-mm-dd").format(mExpirationDate));
+                Date chosenTime = calendar.getTime();
+                Date currentTime = current.getTime();
+                if (currentTime.after(chosenTime)) {
+                    Toast.makeText(UpdateElementActivity.this, "Invalid Date Selection" , Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    mExpirationDate = chosenTime;
+                    expirationDateText.setText(new SimpleDateFormat("yyyy-MM-dd").format(mExpirationDate));
+                }
             }
         };
 
-        expirationDateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(UpdateElementActivity.this , date, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+
+
 
         mUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,10 +173,6 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
         e.setExpirationDate(mExpirationDate);
         e.setLocation(0,0);
         e.setCreatorPlayground(mUser.getPlayground());
-//        Map<String, Object> attributes = new HashMap<>();
-//        attributes.put("description",mDescription);
-
-
         String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail() +"/"+ e.getPlayground() + "/" + e.getId();
         JSONObject jsonObject = e.toJson();
         mHandler.putRequest(url , "updateElement",  jsonObject);

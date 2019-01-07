@@ -3,6 +3,7 @@ package com.example.ran.ratingplayground_client.activities.common;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         mRole = AppConstants.PLAYER;
 
         initializeUI();

@@ -30,7 +30,8 @@
         <activity android:name=".activities.common.UpdateUserActivity" />
         <activity android:name=".activities.player.BillboardElementActivity" />
         <activity android:name=".activities.manager.UpdateElementActivity" />
-        <activity android:name=".activities.player.RankingActivity"></activity>
+        <activity android:name=".activities.player.RankingActivity" />
+        <activity android:name=".activities.player.EndRatingActivity"></activity>
     </application>
 
 </manifest>
