@@ -3,6 +3,7 @@ package com.example.ran.ratingplayground_client.activities.player;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mUser = (UserTO)bundle.getSerializable(AppConstants.USER);

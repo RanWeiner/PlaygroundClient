@@ -3,6 +3,7 @@ package com.example.ran.ratingplayground_client.activities.player;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,6 +47,7 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mUser = (UserTO)bundle.getSerializable(AppConstants.USER);

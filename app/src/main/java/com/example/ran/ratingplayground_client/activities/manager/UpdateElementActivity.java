@@ -2,6 +2,7 @@ package com.example.ran.ratingplayground_client.activities.manager;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_element);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
