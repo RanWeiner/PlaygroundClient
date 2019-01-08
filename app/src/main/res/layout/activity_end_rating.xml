@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:src="@drawable/thumbs_down"
         android:layout_above="@+id/final_points_id"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp" />
@@ -31,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="1"
+        android:weightSum="3"
         android:orientation="vertical"
         >
 
@@ -40,20 +41,35 @@
             android:layout_height="wrap_content"
             android:id="@+id/final_points_id"
             android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="18dp"
             android:gravity="center"
             android:text="YOUR POINTS"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/final_total_points_id"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:text="Total Points"
+            />
+
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:background="#80ffffff"
+            android:background="@drawable/button_border"
             android:text="Main Menu"
-            android:textColor="#491222"
+            android:textColor="#ffffff"
             android:id="@+id/go_back_btn_id"
             />
     </LinearLayout>

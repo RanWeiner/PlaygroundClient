@@ -139,8 +139,9 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
                     JSONObject attributes = jsonObject.getJSONObject(AppConstants.ATTRIBUTES);
                     content = attributes.getJSONObject("content");
                     int points = content.getInt("Points");
-                    Log.i("PointsXXXX" , "points = " + points);
-                    goToEndRatingActivity(points);
+                    long totalPoints = content.getLong("TotalPoints");
+                    Log.i("PointsXXXX" , "points = " + points + ", total = " + totalPoints);
+                    goToEndRatingActivity(points , totalPoints);
                 } catch (JSONException e) {
                     goToFailDialog();
                     e.printStackTrace();
@@ -193,11 +194,12 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
     }
 
 
-    public void goToEndRatingActivity(int points){
+    public void goToEndRatingActivity(int points , long totalPoints){
         Intent intent = new Intent(RankingActivity.this , EndRatingActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConstants.USER , mUser);
         bundle.putInt("points" , points);
+        bundle.putLong("totalPoints" , totalPoints);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();

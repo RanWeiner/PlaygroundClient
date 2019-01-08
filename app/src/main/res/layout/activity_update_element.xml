@@ -26,22 +26,6 @@
         android:drawablePadding="5dp"
         android:id="@+id/update_element_name_text"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Expiration Date"
-        android:textColor="@color/white"
-        android:clickable="true"
-        android:focusable="false"
-        android:cursorVisible="false"
-        android:focusableInTouchMode="false"
-        android:textColorHint="@color/white"
-        android:inputType="date"
-        android:drawableLeft="@drawable/ic_date"
-        android:drawablePadding="5dp"
-        android:id="@+id/update_element_expiration_date_text_id"/>
-
 
     <RadioGroup
         android:layout_marginTop="20dp"
@@ -126,7 +110,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:background="#c2c2c2"
-            android:text="CREATE"
+            android:text="Update"
             android:textColor="#491222"
             android:id="@+id/update_element_btn_id"/>
 

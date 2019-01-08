@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
+    android:background="#09093d"
     tools:context=".activities.player.BillboardElementActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -51,6 +52,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerInside"
                 android:id="@+id/add_post_btn_id"
                 android:layout_gravity="center"
                 android:background="@null"
@@ -61,6 +63,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerInside"
                 android:id="@+id/right_page_btn_id"
                 android:background="@null"
                 android:src="@drawable/right_arrow"

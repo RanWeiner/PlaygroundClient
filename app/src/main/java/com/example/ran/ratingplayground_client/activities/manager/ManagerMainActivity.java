@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class ManagerMainActivity extends AppCompatActivity  implements HttpRequestsHandler.ResponseListener {
 
-    private Button mUpdateUser , mAddElementBtn , mSearchElementsByDist,mSearchElementsByAttribute, mShowAllBtn;
+    private ImageButton mUpdateUser , mAddElementBtn , mSearchElementsByDist,mSearchElementsByAttribute, mShowAllBtn;
     private UserTO mUser;
     private List<ElementTO> mElements = new ArrayList<>();
     private RecyclerViewAdapter mAdapter;
@@ -70,7 +71,6 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         mAdapter = new RecyclerViewAdapter(getApplicationContext(), new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onElementClicked(int position) {
-                Toast.makeText(ManagerMainActivity.this, "ElementTO: " + mElements.get(position).getId(),Toast.LENGTH_SHORT).show();
                 openOptionsDialog( mElements.get(position));
 
             }
@@ -98,18 +98,18 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ManagerMainActivity.this);
-        builder.setTitle("Update ElementTO?").setMessage("Are you sure you want to update this ElementTO? ")
+        builder.setTitle("Update Element?").setMessage("Are you sure you want to update this Element? ")
                 .setPositiveButton("Yes", dialogClickListener).show();
 
     }
 
 
     private void initializeUI() {
-        mUpdateUser = (Button)findViewById(R.id.manager_update_user_btn_id);
-        mAddElementBtn = (Button)findViewById(R.id.create_element_btn_id);
-        mSearchElementsByDist = (Button)findViewById(R.id.manager_search_elements_by_dist_btn_id);
-        mSearchElementsByAttribute = (Button)findViewById(R.id.manager_search_elements_by_attr_btn_id);
-        mShowAllBtn = (Button)findViewById(R.id.manager_show_all_elements_btn_id);
+        mUpdateUser = (ImageButton)findViewById(R.id.manager_update_user_btn_id);
+        mAddElementBtn = (ImageButton)findViewById(R.id.create_element_btn_id);
+        mSearchElementsByDist = (ImageButton)findViewById(R.id.manager_search_elements_by_dist_btn_id);
+        mSearchElementsByAttribute = (ImageButton)findViewById(R.id.manager_search_elements_by_attr_btn_id);
+        mShowAllBtn = (ImageButton)findViewById(R.id.manager_show_all_elements_btn_id);
         mProgressBar = (ProgressBar)findViewById(R.id.manager_progress_bar_id);
         setUpImageGrid();
         setListeners();
@@ -244,13 +244,12 @@ public class ManagerMainActivity extends AppCompatActivity  implements HttpReque
         final EditText etValue = alertLayout.findViewById(R.id.et_value);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Info");
+        alert.setTitle("Search By Attributes");
         alert.setView(alertLayout);
         alert.setCancelable(false);
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
             }
         });
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {

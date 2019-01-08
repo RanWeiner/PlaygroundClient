@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,22 +20,24 @@ import com.example.ran.ratingplayground_client.utils.AppConstants;
 import com.example.ran.ratingplayground_client.utils.HttpRequestsHandler;
 import com.example.ran.ratingplayground_client.utils.InputValidation;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateElementActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
     private UserTO mUser;
     private ElementTO mElement;
     private ProgressBar mProgressBar;
-    private Date mExpirationDate;
     private HttpRequestsHandler mHandler;
-
     private Button mUpdateBtn;
-    private String mType , mDescription , mName;
-    private EditText descriptionText, nameText , expirationDateText,xLocationText, yLocationText;;
+    private String mType , mName;
+    private double x , y;
+    private EditText nameText ,xLocationText, yLocationText;;
 
 
 
@@ -82,16 +85,17 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
 
     private void initializeUI() {
         mUpdateBtn = (Button)findViewById(R.id.update_element_btn_id);
-//        descriptionText = (EditText)findViewById(R.id.element_description_text_id);
 
         nameText = (EditText)findViewById(R.id.update_element_name_text);
         mProgressBar = (ProgressBar)findViewById(R.id.update_progress_bar_id);
-        expirationDateText = (EditText)findViewById(R.id.update_element_expiration_date_text_id);
         xLocationText = (EditText)findViewById(R.id.update_element_x_text_id);
         yLocationText = (EditText)findViewById(R.id.update_element_y_text_id);
 
+        mType = AppConstants.BILLBOARD_TYPE;
         nameText.setText(mElement.getName());
-//        expirationDateText.setText(mElement.getExpirationDate().toString());
+        mName = mElement.getName();
+        x = mElement.getX();
+        y = mElement.getY();
         xLocationText.setText(""+mElement.getX());
         yLocationText.setText(""+mElement.getY());
 
@@ -100,63 +104,29 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
 
 
     private void setListeners() {
-        final Calendar calendar = Calendar.getInstance();
-        final Calendar current = Calendar.getInstance();
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR , year);
-                calendar.set(Calendar.MONTH , month);
-                calendar.set(Calendar.DAY_OF_MONTH , dayOfMonth);
-                Date chosenTime = calendar.getTime();
-                Date currentTime = current.getTime();
-                if (currentTime.after(chosenTime)) {
-                    Toast.makeText(UpdateElementActivity.this, "Invalid Date Selection" , Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    mExpirationDate = chosenTime;
-                    expirationDateText.setText(new SimpleDateFormat("yyyy-MM-dd").format(mExpirationDate));
-                }
-            }
-        };
-
-
-
-
         mUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mName = nameText.getText().toString();
-                mDescription = descriptionText.getText().toString();
+                mProgressBar.setVisibility(View.VISIBLE);
 
-                boolean isValid = validateUserInput();
-                if (isValid){
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    updateElement(mElement);
+                if (!nameText.getText().toString().isEmpty() && !nameText.getText().toString().equals(mName)) {
+                    mName = nameText.getText().toString();
                 }
+
+                if (!xLocationText.getText().toString().isEmpty()) {
+                    x = Double.parseDouble(xLocationText.getText().toString());
+                }
+                if (!yLocationText.getText().toString().isEmpty()) {
+                    y = Double.parseDouble(yLocationText.getText().toString());
+                }
+
+                updateElement();
             }
         });
-    }
-
-
-    private boolean validateUserInput() {
-
-        //validate userTextView
-        if (!InputValidation.validateUserInput(mName)) {
-            nameText.setError("Title is required");
-            nameText.requestFocus();
-            return false;
         }
 
-        //validate date
-        if (!InputValidation.validateUserInput(expirationDateText.getText().toString())) {
-            expirationDateText.setError("Date is required");
-            expirationDateText.requestFocus();
-            return false;
-        }
 
-        return true;
-    }
+
 
 
     @Override
@@ -165,16 +135,11 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
 
     }
 
-    private void updateElement(ElementTO e) {
+    private void updateElement() {
 
-        e.setType(mType);
-        e.setName(mName);
-        e.setCreatorEmail(mUser.getEmail());
-        e.setExpirationDate(mExpirationDate);
-        e.setLocation(0,0);
-        e.setCreatorPlayground(mUser.getPlayground());
-        String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail() +"/"+ e.getPlayground() + "/" + e.getId();
-        JSONObject jsonObject = e.toJson();
+        Log.i("UPDATEXXX" , "user P = " + mUser.getPlayground() +" userEmail=" + mUser.getEmail() + ", Ele P= " + mElement.getPlayground() + " , Ele ID= " + mElement.getId());
+        String url = AppConstants.HOST + AppConstants.HTTP_ELEMENT + mUser.getPlayground() + "/" + mUser.getEmail() +"/"+ mElement.getPlayground() + "/" + mElement.getId();
+        JSONObject jsonObject = getJSONObject();
         mHandler.putRequest(url , "updateElement",  jsonObject);
     }
 
@@ -188,6 +153,34 @@ public class UpdateElementActivity extends AppCompatActivity implements HttpRequ
         finish();
     }
 
+    public JSONObject getJSONObject() {
+        Map<String, Object> attributes = new HashMap<>();
+        if (mType.equals(AppConstants.MOVIE_TYPE)) {
+            attributes.put("image" , AppConstants.MOVIE_IMAGE_URL);
+        } else if (mType.equals(AppConstants.BOOK_TYPE)) {
+            attributes.put("image" , AppConstants.BOOK_IMAGE_URL);
+        } else {
+            attributes.put("image" , AppConstants.BILLBOARD_IMAGE_URL);
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject locationObject = new JSONObject();
+        try {
+            jsonObject.put("id" , mElement.getId());
+            jsonObject.put("playground" , mElement.getPlayground());
+            jsonObject.put("creatorPlayground" , mUser.getPlayground());
+            jsonObject.put("name", mName);
+            jsonObject.put("type", mType);
+            locationObject.put("x" , x);
+            locationObject.put("y" , y);
+            jsonObject.put("location" , locationObject);
+            JSONObject json = new JSONObject(attributes);
+            jsonObject.put("attributes",json );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
     @Override
     public void onSuccess(final String myResponse, String event) {
         runOnUiThread(new Runnable() {

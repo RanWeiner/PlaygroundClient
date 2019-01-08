@@ -18,13 +18,13 @@ import com.example.ran.ratingplayground_client.utils.AppConstants;
 
 public class EndRatingActivity extends AppCompatActivity {
 
-    final static int POINTS_MIN_BAR = 10;
-//    private MediaPlayer mPlayer;
+
     private ImageView imageViewTop;
     private ImageView imageViewDown;
     private Button menuBtn;
-    private TextView pointsTextView;
+    private TextView pointsTextView , totalPointsTextView;
     private int points;
+    private long totalPoints;
     private UserTO mUser;
 
     @Override
@@ -37,6 +37,9 @@ public class EndRatingActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         mUser = (UserTO)bundle.getSerializable(AppConstants.USER);
         points = bundle.getInt("points");
+        totalPoints = bundle.getLong("totalPoints");
+
+        mUser.setPoints(totalPoints);
         menuBtn = (Button)findViewById(R.id.go_back_btn_id);
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,57 +49,31 @@ public class EndRatingActivity extends AppCompatActivity {
         });
         LinearLayout layout = (LinearLayout) findViewById(R.id.end_game_layout);
         pointsTextView = (TextView) findViewById(R.id.final_points_id);
-        pointsTextView.setText("Your Points: " + points);
+        pointsTextView.setText("You have gained " + points + " points!");
+
+        totalPointsTextView = (TextView) findViewById(R.id.final_total_points_id);
+        totalPointsTextView.setText("Total Points: " + totalPoints);
+
         imageViewTop =  (ImageView)findViewById(R.id.endGamePictureTop);
         imageViewDown = (ImageView)findViewById(R.id.endGamePictureDown);
 
-        if (points  >= 10) {
-            layout.setBackgroundColor(getColor(R.color.blue));
-            imageViewTop.setImageResource(R.drawable.congrats);
-            imageViewDown.setImageResource(R.drawable.tressure);
-//            playWinMusic();
+        if (points  >= 6) {
+            layout.setBackgroundColor(getColor(R.color.green));
+            imageViewTop.setImageResource(R.drawable.well_done);
+            imageViewDown.setImageResource(R.drawable.thumbs);
+            pointsTextView.setTextColor(getColor(R.color.black));
+            menuBtn.setTextColor(getColor(R.color.black));
         } else {
-            layout.setBackgroundColor(getColor(R.color.black));
-            imageViewTop.setImageResource(R.drawable.you_lose);
-            imageViewDown.setImageResource(R.drawable.lost);
-//            playLoseMusic();
+            layout.setBackgroundColor(getColor(R.color.red));
+            imageViewTop.setImageResource(R.drawable.not_enough);
+            imageViewDown.setImageResource(R.drawable.thumbs_down);
+            pointsTextView.setTextColor(getColor(R.color.white));
+            menuBtn.setTextColor(getColor(R.color.white));
         }
 
     }
 
 
-
-//    public void playWinMusic() {
-//        try {
-//            if (mPlayer != null) {
-//                mPlayer.release();
-//                mPlayer = null;
-//            }
-//
-//            mPlayer = MediaPlayer.create(EndRatingActivity.this, R.raw.win);
-//            mPlayer.start();
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void playLoseMusic() {
-//
-//        try {
-//            if (mPlayer != null) {
-//                mPlayer.release();
-//                mPlayer = null;
-//            }
-//
-//            mPlayer = MediaPlayer.create(EndRatingActivity.this, R.raw.lost);
-//            mPlayer.start();
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
 
     public void goToMainMenu(){
         Intent intent = new Intent(EndRatingActivity.this, PlayerMainActivity.class);

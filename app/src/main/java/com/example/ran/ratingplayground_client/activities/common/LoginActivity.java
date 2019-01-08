@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
 
 
     public void showNetworkErrorMessage() {
+        mProgressBar.setVisibility(View.INVISIBLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Sorry, this application required an Internet connection.")
                 .setCancelable(false)

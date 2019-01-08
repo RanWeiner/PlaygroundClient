@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@color/title"
+        android:textColor="@color/gray"
         android:textSize="16dp"
         android:text="title"
         android:textStyle="bold" />
@@ -25,7 +25,10 @@
         android:id="@+id/post_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/author_text" />
+        android:textSize="18dp"
+        android:layout_below="@id/author_text"
+        android:textColor="@color/white"
+        />
 
     <TextView
         android:id="@+id/date_text"
@@ -33,6 +36,6 @@
         android:layout_height="wrap_content"
         android:textSize="10dp"
         android:layout_alignParentRight="true"
-        android:textColor="@color/year" />
+        android:textColor="@color/gray" />
 
 </RelativeLayout>

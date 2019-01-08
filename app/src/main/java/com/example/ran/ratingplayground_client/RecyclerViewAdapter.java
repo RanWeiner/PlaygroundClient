@@ -17,6 +17,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ran.ratingplayground_client.model.ElementTO;
 import com.example.ran.ratingplayground_client.utils.AppConstants;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,27 +69,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .error(R.drawable.image_not_found)
                 .priority(Priority.HIGH);
 
-        ElementTO e = elements.get(position);
-        Map<String,Object> map = elements.get(position).getAttributes();
-        if (map != null)
-            Glide.with(mContext).load(map.get("image"))
-                .apply(options)
-                .into(holder.imageView);
 
-//                        .error(AppConstants.BOOK_IMAGE_URL).into(holder.imageView);
-//        switch (elements.get(position).getType()) {
-//            case AppConstants.BILLBOARD_TYPE:
-//                holder.imageView.setImageResource(R.drawable.sign);
-//                break;
-//            case AppConstants.BOOK_TYPE:
-//                holder.imageView.setImageResource(R.drawable.book);
-//                Glide.with(mContext).load(elements.get(position).getAttributes().get("image"))
-//                        .error(AppConstants.BOOK_IMAGE_URL).into(holder.imageView);
-//                break;
-//            case AppConstants.MOVIE_TYPE:
-//                holder.imageView.setImageResource(R.drawable.clapperboard);
-//                break;
-//        }
+        Map<String,Object> map = elements.get(position).getAttributes();
+        if (map != null) {
+            try {
+                Glide.with(mContext).load(new URL(map.get("image").toString()))
+                        .thumbnail(0.1f)
+                    .apply(options)
+                    .into(holder.imageView);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            holder.imageView.setImageResource(R.drawable.image_not_found);
+        }
+
         holder.bind(position,listener);
     }
 

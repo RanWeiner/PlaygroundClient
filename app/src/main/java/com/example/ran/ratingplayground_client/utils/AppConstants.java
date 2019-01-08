@@ -19,16 +19,15 @@ public class AppConstants {
     public static final String RATING = "rating";
 
 
-    public static final String BOOK_IMAGE_URL = "https://cdn-images-1.medium.com/max/1500/1*OQXqTrTpXynrt85LeuaCnA.jpeg";
-    public static final String MOVIE_IMAGE_URL = "https://media.wired.com/photos/5b7350e75fc74d47846ce4e4/master/w_825,c_limit/Popcorn-869302844.jpg";
-    public static final String BILLBOARD_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Paper-notes.svg/768px-Paper-notes.svg.png";
+    public static final String BOOK_IMAGE_URL = "https://i.ibb.co/Wsg4dF8/f8863405-b08d-4742-9588-d027366bccd5.png";
+    public static final String MOVIE_IMAGE_URL = "https://i.ibb.co/BPqXyK7/22e2300c-22cc-43a4-bdd5-188b6a117386.png";
+    public static final String BILLBOARD_IMAGE_URL = "https://i.ibb.co/Kxsk9JQ/b71d4375-46ed-4e62-bf14-282438e68dd3.png";
 
     //emulator
 //    public static final String HOST = "http://10.0.2.2:8084";
 
     //real device
-    public static final String HOST = "http://10.100.102.18:8084";
-
+    public static final String HOST = "http://10.100.102.18:8084"; //ran's place
 
     public static final String HTTP_USER ="/playground/users/";
     public static final String HTTP_VERIFY_USER = "/playground/users/confirm/";

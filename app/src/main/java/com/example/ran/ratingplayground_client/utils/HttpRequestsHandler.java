@@ -26,9 +26,9 @@ public class HttpRequestsHandler {
 
     private HttpRequestsHandler() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(20, TimeUnit.SECONDS);
-        builder.readTimeout(20, TimeUnit.SECONDS);
-        builder.writeTimeout(20, TimeUnit.SECONDS);
+        builder.connectTimeout(25, TimeUnit.SECONDS);
+        builder.readTimeout(25, TimeUnit.SECONDS);
+        builder.writeTimeout(25, TimeUnit.SECONDS);
         mClient = builder.build();
 //        mClient = new OkHttpClient();
     }

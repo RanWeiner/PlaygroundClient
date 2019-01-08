@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerMainActivity extends AppCompatActivity implements HttpRequestsHandler.ResponseListener{
-    private Button mUpdateUser , mSearchElementsByDist, mSearchElementsByAttribute, mShowAll;
+    private ImageButton mUpdateUser , mSearchElementsByDist, mSearchElementsByAttribute, mShowAll;
     private UserTO mUser;
     private List<ElementTO> mElements = new ArrayList<>();
     private RecyclerViewAdapter mAdapter;
@@ -98,13 +99,13 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
     }
 
     private void initializeUI() {
-        mUpdateUser = (Button)findViewById(R.id.player_update_user_btn_id);
-        mSearchElementsByDist = (Button)findViewById(R.id.player_search_elements_by_dist_btn_id);
-        mSearchElementsByAttribute = (Button)findViewById(R.id.player_search_elements_by_attr_btn_id);
-        mShowAll = (Button)findViewById(R.id.player_show_all_btn_id);
+        mUpdateUser = (ImageButton)findViewById(R.id.player_update_user_btn_id);
+        mSearchElementsByDist = (ImageButton)findViewById(R.id.player_search_elements_by_dist_btn_id);
+        mSearchElementsByAttribute = (ImageButton)findViewById(R.id.player_search_elements_by_attr_btn_id);
+        mShowAll = (ImageButton)findViewById(R.id.player_show_all_btn_id);
         mProgressBar = (ProgressBar)findViewById(R.id.player_progress_bar_id);
         mPlayerPoints = (TextView)findViewById(R.id.player_point_txt);
-        mPlayerPoints.setText("Points: " +mUser.getPoints());
+        mPlayerPoints.setText("Points: " + mUser.getPoints());
         mProgressBar.setVisibility(View.INVISIBLE);
         setUpImageGrid();
         setListeners();

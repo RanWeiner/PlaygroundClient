@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/purple"
     android:orientation="vertical"
     android:weightSum="1"
     tools:context=".activities.manager.ManagerMainActivity">
@@ -12,98 +12,172 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/manager_recycler_id"
-        android:background="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_weight="0.3">
+        android:layout_weight="0.2">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7"
-        android:weightSum="1"
+        android:layout_weight="0.8"
+        android:background="@color/purple"
+        android:weightSum="2"
         android:orientation="vertical">
 
 
-        <ProgressBar
-            android:id="@+id/manager_progress_bar_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="invisible"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/manager_progress_bar_id"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/settings"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:id="@+id/manager_update_user_btn_id"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_gray"
+                    android:text="Update User"/>
+
+            </LinearLayout>
+
+
+            <ProgressBar
+                android:id="@+id/manager_progress_bar_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/manager_progress_bar_id"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/plus"
+                    android:background="@null"
+                    android:id="@+id/create_element_btn_id"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_gray"
+                    android:text="Create Element"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:weightSum="1"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="0.5"
-                android:weightSum="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/manager_update_user_btn_id"
-                    android:layout_weight="0.5"
-                    android:text="Upadate User"
-                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/finder"
+                    android:background="@null"
+                    android:id="@+id/manager_search_elements_by_dist_btn_id"
+                    android:layout_gravity="center"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/create_element_btn_id"
-                    android:layout_weight="0.5"
-                    android:text="Create"
-                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_gray"
+                    android:text="By Distance"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="0.5"
-                android:weightSum="3">
-            <Button
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/attributes_finder"
+                    android:background="@null"
+                    android:id="@+id/manager_search_elements_by_attr_btn_id"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_gray"
+                    android:text="By Attribute"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/manager_search_elements_by_dist_btn_id"
-                android:text="Search distance"
                 android:layout_weight="1"
-                />
+                android:orientation="vertical">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/manager_search_elements_by_attr_btn_id"
-                android:text="Search attribute"
-                android:layout_weight="1"
-                />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/eye"
+                    android:background="@null"
                     android:id="@+id/manager_show_all_elements_btn_id"
-                    android:text="show all"
-                    android:layout_weight="1"
-                    />
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light_gray"
+                    android:text="Show All"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>
