@@ -4,188 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple"
+    android:weightSum="5"
     android:orientation="vertical"
-    android:weightSum="1"
-    tools:context=".activities.manager.ManagerMainActivity">
+    android:background="@color/purple"
+    tools:context=".activities.player.RankingActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:id="@+id/element_image_id"
+        android:layout_weight="2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.2"
+        android:layout_weight="3"
+        android:weightSum="3"
         android:orientation="vertical"
-        android:weightSum="1"
-        >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/player_recycler_id"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:layout_weight="0.1">
-        </android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/player_point_txt"
-            android:textColor="@color/black"
-            android:background="@color/light_gray"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:id="@+id/element_rank_name_id"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_weight="2"
+            android:textColor="@color/light_gray"
+            android:text="Hello World!"
             android:textSize="20dp"
-            android:text="Points: "
-            android:layout_weight="0.9"
+            android:textStyle="italic|bold"
             />
+
+        <Button
+            android:id="@+id/rank_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/button_border"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Rank" />
+
     </LinearLayout>
 
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.8"
-        android:background="@color/purple"
-        android:weightSum="2"
-        android:orientation="vertical">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/player_progress_bar_id"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings"
-                    android:background="@null"
-                    android:id="@+id/player_update_user_btn_id"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/light_gray"
-                    android:text="Update User"/>
-
-            </LinearLayout>
-
-
-            <ProgressBar
-                android:id="@+id/player_progress_bar_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                android:layout_gravity="center"
-                />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/player_progress_bar_id"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/eye"
-                    android:background="@null"
-                    android:id="@+id/player_show_all_btn_id"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/light_gray"
-                    android:layout_gravity="center"
-                    android:text="Show All"/>
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/player_blank_progress_bar_id"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/finder"
-                    android:background="@null"
-                    android:id="@+id/player_search_elements_by_dist_btn_id"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/light_gray"
-                    android:text="By Distance"/>
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/player_blank_progress_bar_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                android:layout_gravity="center"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/player_blank_progress_bar_id"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/attributes_finder"
-                    android:background="@null"
-                    android:id="@+id/player_search_elements_by_attr_btn_id"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/light_gray"
-                    android:text="By Attribute"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
 
 </LinearLayout>

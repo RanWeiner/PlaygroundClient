@@ -12,6 +12,8 @@
     <color name="red">#9c0808</color>
     <color name="gray">#9c9a9a</color>
     <color name="light_gray">#dcdcdc</color>
+    <color name="light_purple">#80ffffff</color>
+
 
 
 </resources>

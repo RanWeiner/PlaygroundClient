@@ -232,7 +232,6 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
             }
         });
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {

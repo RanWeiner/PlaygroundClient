@@ -57,7 +57,6 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         elementNameTextView.setText(mElement.getName());
         setImage();
 
-        Toast.makeText(RankingActivity.this , "element id = " + mElement.getId(),Toast.LENGTH_LONG).show();
 
         rankBtn = (Button) findViewById(R.id.rank_btn);
         rankBtn.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +169,7 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RankingActivity.this);
-        builder.setTitle("Ops...").setMessage("You already ranked this element.")
+        builder.setTitle("Oops...").setMessage("You already ranked this element.")
                 .setPositiveButton("OK", dialogClickListener).show();
 
     }

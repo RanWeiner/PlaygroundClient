@@ -41,9 +41,8 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-        initNetworkStatus();
         initializeUI();
-
+        initNetworkStatus();
         mHandler = HttpRequestsHandler.getInstance();
         mHandler.setResponseListener(this);
     }
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
         mRegister = (Button) findViewById(R.id.login_activiy_register_btn);
         mEmailText = (EditText) findViewById(R.id.email_login_text);
         mPlaygroundText = (EditText)findViewById(R.id.playground_login_text);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar_id);
+        mProgressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
         mProgressBar.setVisibility(View.INVISIBLE);
 
         //just for DEBUG

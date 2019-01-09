@@ -1,6 +1,7 @@
 package com.example.ran.ratingplayground_client.activities.common;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -32,11 +33,12 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     private ImageButton  mAvatarBtn;
     private EditText mEmailText, mUsernameText;
     private ProgressBar mProgressBar;
-
+    private AlertDialog mAlertDialog;
     private String mEmail,mUsername , mAvatarImagePath = "dummy" , mRole ;
     private NewUserForm mNewUserForm;
-
+    private Button mVerifyCodeBtn;
     private HttpRequestsHandler mHandler;
+    private UserTO mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
         mEmailText = (EditText)findViewById(R.id.email_text);
         mUsernameText = (EditText)findViewById(R.id.username_text);
         mProgressBar = (ProgressBar)findViewById(R.id.register_progress_bar_id);
-
+        mVerifyCodeBtn = (Button)findViewById(R.id.verify_code_btn);
         setListeners();
     }
 
@@ -102,6 +104,15 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        mVerifyCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mUser != null && mEmailText.getText().toString().equals(mUser.getEmail())){
+                    showVerificationDialog(mUser);
+                }
             }
         });
     }
@@ -154,6 +165,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     public void onSuccess(final String myResponse , final String event) {
 
         if (event.equals(AppConstants.EVENT_VERIFY_USER)) {
+            mAlertDialog.dismiss();
             userRegisteredAndVerified(myResponse);
 
         } else if (event.equals(AppConstants.EVENT_REGISTER)) {
@@ -169,15 +181,14 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     private void userRegistered(final String myResponse) {
         runOnUiThread(new Runnable() {
             JSONObject json = null;
-            UserTO user = null;
             @Override
             public void run() {
                 Toast.makeText(RegisterUserActivity.this , "registered successfully!" , Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.INVISIBLE);
                 try {
                     json = new JSONObject(myResponse);
-                    user =  UserTO.fromJson(json);
-                    verifyUser(user);
+                    mUser =  UserTO.fromJson(json);
+                    verifyUser(mUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -202,28 +213,39 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     }
 
 
-private void showVerificationDialog(final UserTO user) {
-    final EditText input = new EditText(RegisterUserActivity.this);
-    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-    input.setLayoutParams(lp);
 
-    AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegisterUserActivity.this);
-    alertDialog.setTitle("VERIFICATION")
-            .setMessage("Enter the 4-digit code you have received in your Mail inbox")
-            .setCancelable(true)
-            .setView(input)
-            .setIcon(R.drawable.ic_verify)
-            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    private void showVerificationDialog(final UserTO user) {
+        final EditText input = new EditText(RegisterUserActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserActivity.this);
+
+        mAlertDialog = builder.setTitle("VERIFICATION")
+                .setMessage("Enter the 4-digit code you have received in your Mail inbox")
+                .setCancelable(true)
+                .setView(input)
+                .setIcon(R.drawable.ic_verify)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        mAlertDialog.show();
+
+        Button theButton = mAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        theButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 int code = Integer.parseInt(input.getText().toString());
                 String url = AppConstants.HOST + AppConstants.HTTP_VERIFY_USER + "/" + user.getPlayground() + "/" + user.getEmail() + "/" + code;
                 mHandler.getRequest(url , AppConstants.EVENT_VERIFY_USER);
             }
         });
-    alertDialog.show();
-}
-
+    }
 
     @Override
     public void onFailed(final String error) {
@@ -231,8 +253,10 @@ private void showVerificationDialog(final UserTO user) {
             @Override
             public void run() {
                 mProgressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(RegisterUserActivity.this , error , Toast.LENGTH_LONG).show();
+                Log.i("Register Error" , error);
+                Toast.makeText(RegisterUserActivity.this , "Sorry, something went wrong... try again" , Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }
