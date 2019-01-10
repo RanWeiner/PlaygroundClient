@@ -72,13 +72,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Map<String,Object> map = elements.get(position).getAttributes();
         if (map != null) {
-            try {
-                Glide.with(mContext).load(new URL(map.get("image").toString()))
+            if (map.containsKey("image")) {
+                String imageUrl = map.get("image").toString();
+                try {
+                Glide.with(mContext).load(new URL(imageUrl))
                         .thumbnail(0.1f)
-                    .apply(options)
-                    .into(holder.imageView);
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
+                        .apply(options)
+                        .into(holder.imageView);
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
             }
         } else {
             holder.imageView.setImageResource(R.drawable.image_not_found);
