@@ -36,7 +36,7 @@ import java.util.Map;
 public class RankingActivity extends AppCompatActivity  implements HttpRequestsHandler.ResponseListener{
 
     private TextView elementNameTextView;
-    private Button rankBtn;
+    private Button rankBtn , showRanking;
     private UserTO mUser;
     private ElementTO mElement;
     private ImageView mElementImageView;
@@ -57,7 +57,13 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         elementNameTextView.setText(mElement.getName());
         setImage();
 
-
+        showRanking = (Button)findViewById(R.id.show_ranking_btn);
+        showRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRankingDialog();
+            }
+        });
         rankBtn = (Button) findViewById(R.id.rank_btn);
         rankBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,6 +72,17 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         });
         mHandler = HttpRequestsHandler.getInstance();
         mHandler.setResponseListener(this);
+    }
+
+    private void showRankingDialog() {
+
+        ActivityTO rate = new ActivityTO(AppConstants.PLAYGROUND, mElement.getPlayground(), mElement.getId(), AppConstants.TYPE_SHOW_RATING,
+                mUser.getPlayground(), mUser.getEmail(),new HashMap<String, Object>());
+
+        String url = AppConstants.HOST + AppConstants.HTTP_ACTIVITIES + mUser.getPlayground() + "/" + mUser.getEmail();
+        JSONObject jsonObject = rate.toJson();
+        mHandler.postRequest(url ,AppConstants.TYPE_SHOW_RATING , jsonObject);
+
     }
 
     private void setImage() {
@@ -125,14 +142,26 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
 
         String url = AppConstants.HOST + AppConstants.HTTP_ACTIVITIES + mUser.getPlayground() + "/" + mUser.getEmail();
         JSONObject jsonObject = rate.toJson();
-        mHandler.postRequest(url ,AppConstants.EVENT_POST_ACTIVITY , jsonObject);
+        mHandler.postRequest(url ,AppConstants.TYPE_RATING , jsonObject);
     }
 
     @Override
-    public void onSuccess(final String myResponse, String event) {
+    public void onSuccess(final String myResponse,final String event) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (event.equals(AppConstants.TYPE_RATING)) {
+                    handleRateResponse(myResponse);
+
+                } else if (event.equals(AppConstants.TYPE_SHOW_RATING)) {
+                    handleShowRatingResponse(myResponse);
+                }
+            }
+        });
+    }
+
+
+        private void handleRateResponse(String myResponse) {
                 JSONObject jsonObject = null;
                 JSONObject content = null;
                 try {
@@ -141,35 +170,65 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
                     content = attributes.getJSONObject("content");
                     int points = content.getInt("Points");
                     long totalPoints = content.getLong("TotalPoints");
-                    Log.i("PointsXXXX" , "points = " + points + ", total = " + totalPoints);
                     goToEndRatingActivity(points , totalPoints);
                 } catch (JSONException e) {
-                    goToFailDialog();
+                    String message = "You already ranked this element.";
+                    goToFailDialog(message);
                     e.printStackTrace();
                 }
-            }
-        });
     }
 
+    private void handleShowRatingResponse(final String myResponse) {
+        JSONObject jsonObject = null;
+        JSONObject content = null;
+        try {
+            jsonObject = new JSONObject(myResponse);
+            JSONObject attributes = jsonObject.getJSONObject(AppConstants.ATTRIBUTES);
+            content = attributes.getJSONObject("content");
+            int rating = content.getInt("Rating");
+            int avg = content.getInt("Average");
+            showRankingDetailsDialog(rating , avg);
+        } catch (JSONException e) {
+            String message = "You must rank the element before.";
+            goToFailDialog(message);
+            e.printStackTrace();
+        }
+    }
+
+    private void showRankingDetailsDialog(int rating, int avg) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        dialog.dismiss();
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(RankingActivity.this);
+        builder.setTitle("Rating").setMessage("The average rating is: " + avg
+            + "\nYour rating: " + rating)
+                .setPositiveButton("OK", dialogClickListener).show();
+    }
 
     @Override
     public void onBackPressed() {
         goToMainMenu();
     }
 
-    private void goToFailDialog() {
+    private void goToFailDialog(String message) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        goToMainMenu();
+                        dialog.dismiss();
                 }
             }
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(RankingActivity.this);
-        builder.setTitle("Oops...").setMessage("You already ranked this element.")
+        builder.setTitle("Oops...").setMessage(message)
                 .setPositiveButton("OK", dialogClickListener).show();
 
     }
@@ -184,12 +243,19 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
     }
 
     @Override
-    public void onFailed(final String error) {
+    public void onFailed(final String error ,final String event) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                goToFailDialog();
-//                Toast.makeText(RankingActivity.this , error , Toast.LENGTH_LONG).show();
+                if (event.equals(AppConstants.TYPE_RATING)) {
+                    String message = "You already ranked this element.";
+                    goToFailDialog(message);
+                }
+
+                else {
+                    String message = "You must rank the element before.";
+                    goToFailDialog(message);
+                }
             }
         });
     }
@@ -206,10 +272,4 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         finish();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.activity_main, menu);
-//        return true;
-//    }
 }

@@ -248,7 +248,7 @@ public class RegisterUserActivity extends AppCompatActivity implements HttpReque
     }
 
     @Override
-    public void onFailed(final String error) {
+    public void onFailed(final String error , String event) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

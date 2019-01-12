@@ -48,5 +48,7 @@ public class AppConstants {
     public static final String TYPE_POST_MESSAGE = "PostMessage";
     public static final String TYPE_READ_MESSAGES = "ReadMessages";
     public static final String TYPE_RATING = "Rating";
+    public static final String TYPE_SHOW_RATING = "ShowRating";
+
 
 }

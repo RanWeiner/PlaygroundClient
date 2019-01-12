@@ -17,7 +17,7 @@ public class HttpRequestsHandler {
 
     public interface ResponseListener{
         void onSuccess(String myResponse , String event);
-        void onFailed(String error);
+        void onFailed(String error,String event);
     }
 
     private static  HttpRequestsHandler sInstance;
@@ -62,7 +62,7 @@ public class HttpRequestsHandler {
                 e.printStackTrace();
                 final String error = e.toString();
                 if (mListener != null)
-                    mListener.onFailed(error);
+                    mListener.onFailed(error , event);
             }
 
             @Override
@@ -70,7 +70,7 @@ public class HttpRequestsHandler {
                 if (!response.isSuccessful()) {
                     final String errorBodyString = response.body().string();
                     if (mListener != null)
-                        mListener.onFailed(errorBodyString);
+                        mListener.onFailed(errorBodyString , event);
                 } else {
                     final String myResponse = response.body().string();
                     if (mListener != null)
@@ -99,7 +99,7 @@ public class HttpRequestsHandler {
                 e.printStackTrace();
                 final String error = e.toString();
                 if (mListener != null)
-                    mListener.onFailed(error);
+                    mListener.onFailed(error , event);
             }
 
             @Override
@@ -107,7 +107,7 @@ public class HttpRequestsHandler {
                 if (!response.isSuccessful()) {
                     final String errorBodyString = response.body().string();
                     if (mListener != null)
-                        mListener.onFailed(errorBodyString);
+                        mListener.onFailed(errorBodyString , event);
                 } else {
                     final String myResponse = response.body().string();
                     if (mListener != null)
@@ -133,7 +133,7 @@ public class HttpRequestsHandler {
                 if (!response.isSuccessful()) {
                     final String errorBodyString = response.body().string();
                     if (mListener != null){
-                        mListener.onFailed(errorBodyString);
+                        mListener.onFailed(errorBodyString , event);
                     }
                 } else {
                     final String myResponse = response.body().string();

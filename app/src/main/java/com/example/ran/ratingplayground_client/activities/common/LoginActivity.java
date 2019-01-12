@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements HttpRequestsHand
 
 
     @Override
-    public void onFailed(final String error) {
+    public void onFailed(final String error, String event) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

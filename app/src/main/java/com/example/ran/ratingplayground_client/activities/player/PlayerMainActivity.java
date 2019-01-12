@@ -307,7 +307,7 @@ public class PlayerMainActivity extends AppCompatActivity implements HttpRequest
 
 
     @Override
-    public void onFailed(final String error) {
+    public void onFailed(final String error , String event) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
