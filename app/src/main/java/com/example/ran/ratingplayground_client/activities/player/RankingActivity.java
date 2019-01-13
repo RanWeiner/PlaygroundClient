@@ -186,7 +186,7 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
             JSONObject attributes = jsonObject.getJSONObject(AppConstants.ATTRIBUTES);
             content = attributes.getJSONObject("content");
             int rating = content.getInt("Rating");
-            int avg = content.getInt("Average");
+            double avg = content.getDouble("Average");
             showRankingDetailsDialog(rating , avg);
         } catch (JSONException e) {
             String message = "You must rank the element before.";
@@ -195,7 +195,7 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
         }
     }
 
-    private void showRankingDetailsDialog(int rating, int avg) {
+    private void showRankingDetailsDialog(int rating, double avg) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -206,7 +206,7 @@ public class RankingActivity extends AppCompatActivity  implements HttpRequestsH
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(RankingActivity.this);
-        builder.setTitle("Rating").setMessage("The average rating is: " + avg
+        builder.setTitle("Rating").setMessage("The average rating is: " + String.format("%.2f" , avg)
             + "\nYour rating: " + rating)
                 .setPositiveButton("OK", dialogClickListener).show();
     }
