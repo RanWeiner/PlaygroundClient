@@ -127,19 +127,6 @@ public class ActivityTO {
 
             JSONObject json = new JSONObject(this.attributes);
             jsonObject.put("attributes",json );
-
-//            //just handle post on billaboard
-//            if (this.type.equals(AppConstants.BILLBOARD_TYPE)) {
-//
-////                attributes.put("post" , this.attributes.get("post"));
-////                attributes.put("year" , this.attributes.get("year"));
-////                attributes.put("user" , this.attributes.get("user"));
-//
-//            } else {
-//
-//            }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

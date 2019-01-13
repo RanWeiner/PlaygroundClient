@@ -7,10 +7,9 @@ public class AppConstants {
     public static final String USER = "user";
     public static final String ELEMENT = "element";
     public static final String PLAYGROUND = "ratingplayground";
-    public static final String DELIMITER = "@@";
     public static final String BOOK_TYPE = "book";
     public static final String MOVIE_TYPE = "movie";
-    public static final String BILLBOARD_TYPE = "billboard";
+    public static final String BILLBOARD_TYPE = "MessageBoard";
     public static final String MESSAGE = "message";
     public static final String MESSAGES = "messages";
     public static final String ATTRIBUTES = "attributes";
